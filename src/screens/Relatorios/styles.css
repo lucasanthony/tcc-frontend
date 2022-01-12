@@ -1,0 +1,9 @@
+#relatoriosContainer {
+  width: 80vw;
+  position: absolute;
+  margin-left: 15vw;
+}
+
+.table {
+  width: 50% !important;
+}
