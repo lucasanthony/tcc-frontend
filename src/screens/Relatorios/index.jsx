@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { lastSubmissions } from "../../services/relatorios";
-import { GrDocumentCsv } from 'react-icons/gr';
+import { GrDocumentCsv } from "react-icons/gr";
 import "./styles.css";
 
 export default function Relatorios(props) {
@@ -20,8 +20,8 @@ export default function Relatorios(props) {
     <div id="relatoriosContainer">
       <h3 id="titleRelatorios">
         Relatórios enviados
-        <GrDocumentCsv id="csvIcon"/>
-        </h3>
+        <GrDocumentCsv id="csvIcon" />
+      </h3>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -34,7 +34,7 @@ export default function Relatorios(props) {
         <tbody>
           {submissions.map((submission, index) => (
             <tr key={index}>
-              <td>{index+1}</td>
+              <td>{index + 1}</td>
               <td>{submission.name}</td>
               <td>{submission.lastSubmission}</td>
               <td>{submission.sendDay}</td>

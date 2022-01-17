@@ -1,0 +1,45 @@
+#membrosContainer {
+  width: 80vw;
+  position: absolute;
+  margin-left: 15vw;
+  padding-top: 2%;
+}
+
+#membrosCards {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+#membrosCards .card {
+  width: 60%;
+  float: left;
+}
+
+#cardFooter {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#cardFooter button {
+  background-color: #07081a;
+  color: #c7c7f3;
+  border: none;
+}
+
+#cardFooter span {
+  font-weight: bold;
+}
+
+#badges {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1%;
+}
+
+#badges .badgeItem {
+  cursor: pointer;
+}
