@@ -1,6 +1,6 @@
 #sidebar {
   width: 10vw;
-  background-color: red;
+  background-color: #c7c7f3;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -9,17 +9,35 @@
   position: fixed;
 }
 
-#sidebar h3 {
+#logoSidebar {
+  width: inherit;
+  position: absolute;
+  top: 0;
+}
+
+/* TODO hard coded para a opção relatórios ficar selecionada */
+#sidebar #relatorios {
+  background-color: #07081a;
+  color: #c7c7f3;
   cursor: pointer;
-  background-color: green;
+}
+
+#sidebar h3 {
+  cursor: not-allowed;
   height: 12%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: inherit;
   width: inherit;
+  color: #07081a;
+  font-size: medium;
+  display: flex;
+  flex-direction: column;
+  gap: 9%;
 }
-
+/* 
 #sidebar h3:hover {
-  background-color: yellow;
-}
+  background-color: #07081a;
+  color: #c7c7f3;
+} */
