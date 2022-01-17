@@ -1,5 +1,5 @@
 {
-  "name": "DireX dashboard",
+  "name": "direx-dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
