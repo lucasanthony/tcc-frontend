@@ -9,7 +9,7 @@ export default function Relatorios(props) {
   useEffect(() => {
     const fetchData = async () => {
       const response = await lastSubmissions();
-      setSubmissions(response.data.result);
+      setSubmissions(response.data.data);
     };
 
     fetchData();
@@ -17,19 +17,21 @@ export default function Relatorios(props) {
 
   return (
     <div id="relatoriosContainer">
-      <h3 id="aaaaaaaa">Membros da EJ</h3>
+      <h3 id="aaaaaaaa">Relatórios enviados</h3>
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>Nome</th>
             <th>Última submissão</th>
+            <th>Data do envio</th>
           </tr>
         </thead>
         <tbody>
           {submissions.map((submission, index) => (
             <tr key={index}>
               <td>{submission.name}</td>
-              <td>{submission.last_submission}</td>
+              <td>{submission.lastSubmission}</td>
+              <td>{submission.sendDay}</td>
             </tr>
           ))}
         </tbody>
