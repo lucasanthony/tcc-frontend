@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:4444/',
+    baseURL: 'https://reportappcodex.herokuapp.com/',
     headers: {
         "Content-type": "application/json"
     }
