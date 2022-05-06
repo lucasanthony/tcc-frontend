@@ -1,5 +1,0 @@
-export const SET_LOADER = 'SET_LOADER'
-
-export const RESET_LOADER = 'RESET_LOADER'
-
-export const SET_LOADER_WITH_TEXT = 'SET_LOADER_WITH_TEXT'

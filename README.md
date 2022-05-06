@@ -1,75 +1,48 @@
-<p align="center">
-  <a href="" rel="noopener">
-  <img width=300px height=200px src="./src/assets/logo.png" alt="Logo do Projeto"></a>
-</p>
+# tcc-front
 
-<h3 align="center">Gestor de empresas juniores</h3>
+This template should help get you started developing with Vue 3 in Vite.
 
----
+## Recommended IDE Setup
 
-<p align="center"> Algumas linhas descrevendo o seu projeto.
-    <br>
-</p>
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
 
-## 📝 Sumário
+## Customize configuration
 
-- [Sobre](#sobre)
-- [Iniciando](#inicio)
-- [Preparando Uso](#preparando)
-- [Como Usar](#como-usar)
-- [Tecnologias Usadas](#tecnologias-usadas)
-- [Desenvolvedores](#desenvolvedores)
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## 🧐 Sobre <a name = "sobre"></a>
+## Project Setup
 
-Escreva cerca de dois parágrafos descrevendo o propósito do seu projeto.
-
-## 🏁 Iniciando <a name = "inicio"></a>
-
-Essas serão as instruções de como reproduzir uma cópia do seu projeto para desenvolvê-lo ou testá-lo. Veja "[Preparando Uso](#preparando)" para instruções de como preparar o sistema desenvolvido para uso.
-
-### Pré-requisitos
-
-O que você precisa antes de instalar o seu projeto e instruções de como os instalar.
-
-```
-dê exemplos
+```sh
+npm install
 ```
 
-### Instalando
+### Compile and Hot-Reload for Development
 
-Um passo a passo com exemplos de como deixar tudo pronto para o desenvolvimento.
-
-Explique cada passo
-
-```
-Dê um exemplo
+```sh
+npm run dev
 ```
 
-e repita
+### Compile and Minify for Production
 
+```sh
+npm run build
 ```
-até que esteja finalizado
+
+### Run Unit Tests with [Vitest](https://vitest.dev/)
+
+```sh
+npm run test:unit
 ```
 
-Finalize com algum exemplo para verificar se a finalização ocorreu bem.
+### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
 
-## 🚀 Preparando Uso <a name = "preparando"></a>
+```sh
+npm run build
+npm run test:e2e # or `npm run test:e2e:ci` for headless testing
+```
 
-Mais instruções de como preparar o seu sistema para o uso normal.
+### Lint with [ESLint](https://eslint.org/)
 
-## 🎈 Como Usar <a name="como-usar"></a>
-
-yarn ou npm install
-yarn start ou npm start
-
-## ⛏️ Tecnologias Usadas <a name = "tecnologias-usadas"></a>
-
-- [MongoDB](https://www.mongodb.com/) - Banco de Dados
-- [Express](https://expressjs.com/) - Framework de Servidor
-- [ReactJs](https://vuejs.org/) - Framework Web
-- [NodeJs](https://nodejs.org/en/) - Ambiente de Servidor
-
-## ✍️ Desenvolvedores <a name = "desenvolvedores"></a>
-
-- [Lucas Anthony](https://github.com/lucasanthony) - Ideia e trabalho inicial
+```sh
+npm run lint
+```

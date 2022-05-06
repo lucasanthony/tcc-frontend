@@ -1,19 +1,9 @@
-<template lang="pug"> 
-  div.app_container
-    router-view
-</template>
-
-<script>
-export default {
-  name: "App"
-};
+<script setup>
 </script>
 
+<template lang="pug">
+router-view
+</template>
+
 <style>
-* {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
 </style>

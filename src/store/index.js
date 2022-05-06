@@ -1,10 +1,25 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import modules from './modules'
+import { createStore } from "vuex";
 
-Vue.use(Vuex)
+const store = createStore({
+    state:{
+        title: "Vuex Store",
+        members: []
+    },
+    getters:{
+        allMembers(state) {
+            return state.members;
+        }
+    },
+    mutations:{
+        SAVE_MEMBER(state,member) {
+            state.members.push(member);
+        }
+    },
+    actions:{
+        saveMember({commit}, member) {
+            commit('SAVE_MEMBER', member);
+        }
+    }
+});
 
-export default new Vuex.Store({
-    modules,
-    strict: process.env.NODE_ENV !== 'production'
-})
+export default store;
