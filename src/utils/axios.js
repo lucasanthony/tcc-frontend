@@ -4,7 +4,7 @@ const Axios = axios.create({
     baseURL: 'http://localhost:4444/',
     headers: {
         "Content-type": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem("auth_token")
+        "Authorization": "Bearer " + localStorage.getItem("@jwt")
     },
     // withCredentials: trues
 });

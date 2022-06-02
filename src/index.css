@@ -15,4 +15,12 @@
 
 .el-button {
   height: 6vh;
+  width: 20%;
+  border-radius: 22px;
+}
+
+.page-title {
+  color: #808080;
+  font-weight: bold;
+  font-size: 2rem;
 }

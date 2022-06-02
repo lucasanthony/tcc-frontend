@@ -16,26 +16,14 @@ div#home
           el-button.button(round size="large" @click='cadastrarEj()') Cadastrar EJ
         el-row
           el-button.button(round type="primary" size="large" @click='entrar()') Entrar
-    cadastro(
-      v-show="isCadastro"
-    )
 </template>
 
 <script>
-import Cadastro from '@/components/Cadastro.vue'
-
 export default {
   name: 'Home',
 
-  components: {
-    Cadastro,
-  },
-
-  data() {
-    return {
-      isCadastro: false,
-      isLogin: false,
-    }
+  mounted() {
+    this.$store.commit('SHOW_SIDEBAR', false)
   },
 
   methods: {
@@ -43,7 +31,7 @@ export default {
       this.isCadastro = true
     },
     entrar() {
-      this.$router.push('Login')
+      this.$router.push({ name: 'Login' })
     },
   },
 }

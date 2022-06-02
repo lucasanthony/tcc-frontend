@@ -1,11 +1,79 @@
 <template lang="pug">
-  
+div.login-page
+  div.login-form
+    span.page-title Entre na sua conta
+    el-input(
+      placeholder="email"
+      v-model="dados.email"
+    )
+    el-input(
+      placeholder="senha"
+      v-model="dados.password"
+    )
+    el-button(
+      type="primary"
+      @click="entrar"
+    ) Entrar
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-    name: 'Login'
-};
+  name: 'Login',
+
+  data() {
+    return {
+      dados: {
+        email: '',
+        password: '',
+      },
+    }
+  },
+
+  mounted() {
+    this.$store.commit('SHOW_SIDEBAR', false)
+  },
+
+  methods: {
+    ...mapActions({
+      login: 'login',
+    }),
+
+    async entrar() {
+      if (this.validarCampos()) {
+        try {
+          const res = await this.login(this.dados)
+          localStorage.setItem('@jwt', res.dados.token)
+          this.$store.commit('SHOW_SIDEBAR', true)
+          this.$router.push({ name: 'Member' })
+        } catch (error) {
+          console.error(error.message)
+        }
+      }
+    },
+
+    validarCampos() {
+      return this.dados.email !== '' && this.dados.password !== ''
+    },
+  },
+}
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.login-page {
+  background: #e6e6e6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50vw;
+    padding: 33px;
+    gap: 4vh;
+  }
+}
+</style>
