@@ -71,9 +71,17 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50vw;
+    width: 30vw;
     padding: 33px;
     gap: 4vh;
+    border: 2px solid #808080;
+    border-radius: 20px;
+    height: 50vh;
+    justify-content: center;
+
+    .el-button {
+      width: 50%;
+    }
   }
 }
 </style>

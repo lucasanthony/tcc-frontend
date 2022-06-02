@@ -1,11 +1,55 @@
 <template lang="pug">
 div.sidebar
-  h3 aaaaaaaaaa
+  div.sidebar-button(
+    :style="isMember ? 'background: #4b53c6' : 'background: #e6e6e6'"
+    @click="handleOption('member')"
+  )
+    el-icon
+      user-filled(
+        :style="isMember ? 'color: white' : 'color: #808080'"
+        :size="20"
+      )
+  div.sidebar-button(
+    :style="isProject ? 'background: #4b53c6' : 'background: #e6e6e6'"
+    @click="handleOption('project')"
+  )
+    el-icon
+      files(
+        :style="isProject ? 'color: white' : 'color: #808080'"
+        :size="20"
+      )
+  div.sidebar-button(
+    :style="isLink ? 'background: #4b53c6' : 'background: #e6e6e6'"
+    @click="handleOption('link')"
+  )
+    el-icon
+      connection(
+        :style="isLink ? 'color: white' : 'color: #808080'"
+        :size="20"
+      )
 </template>
 
 <script>
 export default {
   name: 'Sidebar',
+
+  computed: {
+    isMember () {
+      return this.$store.state.sidebar.activeOption === 'member'
+    },
+    isProject () {
+      return this.$store.state.sidebar.activeOption === 'project'
+    },
+    isLink () {
+      return this.$store.state.sidebar.activeOption === 'link'
+    }
+  },
+
+  methods: {
+    handleOption (option) {
+      this.$store.commit('SET_SIDEBAR_OPTION', option)
+    }
+  }
 }
 </script>
 
@@ -14,6 +58,36 @@ export default {
   width: 10vw;
   height: 100vh;
   position: fixed;
-  background: red;
+  background: #ecf0f3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+
+  .sidebar-button {
+    background: #e6e6e6;
+    height: 16%;
+    width: 80%;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebar-button:hover {
+    cursor: pointer;
+  }
+
+  .el-icon {
+    width: 100%;
+    height: 100%;
+
+    svg {
+      height: 3em;
+      width: 3em;
+      color: #808080;
+    }
+  }
 }
 </style>

@@ -2,11 +2,13 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue'
+import Header from '@/components/Header.vue'
 
 export default {
   name: 'App',
   components: {
     Sidebar,
+    Header
   },
 
   computed: {
@@ -21,8 +23,11 @@ export default {
 sidebar(
   v-if="showSidebar"
 )
+Header(
+  v-if="showSidebar"
+)
 router-view.float-right(
-  :style="!showSidebar ? 'width: 100vw' : 'width: 90vw'"
+  :style="!showSidebar ? 'width: 100vw; height: 100vh' : 'width: 90vw; height: 85vh'"
 )
 </template>
 
@@ -30,5 +35,6 @@ router-view.float-right(
 .float-right {
   width: 90vw;
   float: right;
+  height: 85vh;
 }
 </style>

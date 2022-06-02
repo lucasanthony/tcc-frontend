@@ -18,6 +18,9 @@ const store = createStore({
       show: true,
       activeOption: ''
     },
+    header: {
+      title: ''
+    },
     title: "Vuex Store",
     members: []
   },
@@ -29,6 +32,9 @@ const store = createStore({
   mutations: {
     SHOW_SIDEBAR(state, showSidebar) {
       state.sidebar.show = showSidebar
+    },
+    SET_SIDEBAR_OPTION(state, option) {
+      state.sidebar.activeOption = option
     }
   },
   actions: {
