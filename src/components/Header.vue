@@ -1,7 +1,9 @@
 <template lang="pug">
 div.header
 	span.title-header {{ title }}
-	el-button
+	el-button(
+    @click="openModal"
+  )
 		span {{ textButton }}
 		div
 			el-icon
@@ -35,15 +37,27 @@ export default {
       }
     },
 
-		textButton () {
-			if (this.isMember) {
+    textButton() {
+      if (this.isMember) {
         return 'Adicionar membro'
       } else if (this.isProject) {
         return 'Adicionar projeto'
       } else if (this.isLink) {
         return 'Adicionar link'
       }
-		}
+    },
+  },
+
+  methods: {
+    openModal() {
+      if (this.isMember) {
+        this.$store.commit('SET_MODAL', 'membro')
+      } else if (this.isProject) {
+        this.$store.commit('SET_MODAL', 'projeto')
+      } else if (this.isLink) {
+        this.$store.commit('SET_MODAL', 'link')
+      }
+    },
   },
 }
 </script>
@@ -53,7 +67,7 @@ export default {
   height: 15vh;
   display: flex;
   justify-content: space-between;
-	align-items: center;
+  align-items: center;
   width: 90vw;
   margin-left: 10vw;
 
@@ -61,13 +75,12 @@ export default {
     font-weight: bold;
     font-size: 2rem;
     color: #808080;
-		margin-left: 5%;
+    margin-left: 5%;
   }
 
-	.el-button {
-		margin-right: 5%;
-		width: 15%;
-	}
+  .el-button {
+    margin-right: 5%;
+    width: 15%;
+  }
 }
-
 </style>

@@ -19,7 +19,8 @@ const store = createStore({
       activeOption: ''
     },
     header: {
-      title: ''
+      title: '',
+      modal: ''
     },
     title: "Vuex Store",
     members: []
@@ -35,6 +36,9 @@ const store = createStore({
     },
     SET_SIDEBAR_OPTION(state, option) {
       state.sidebar.activeOption = option
+    },
+    SET_MODAL(state, option) {
+      state.header.modal = option
     }
   },
   actions: {

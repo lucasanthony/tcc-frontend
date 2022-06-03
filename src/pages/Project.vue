@@ -44,61 +44,25 @@ div
             size="small"
           )
             delete
-  el-dialog(
-    title="Adicionar Membro"
-    @close="closeModal"
-    v-model="showModal"
-  )
-    adicionar-membro(
-      :membro="novoMembro"
-    )
-    template(
-      #footer
-    )
-      span.dialog-footer
-        el-button(
-          @click="salvar"
-          type="primary"
-          color="#4b53c6"
-        ) Salvar
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import Utils from '@/utils/utils'
-import AdicionarMembro from '@/components/modals/AdicionarMembro.vue'
 
 export default {
-  name: 'Member',
-
-  components: {
-    AdicionarMembro,
-  },
+  name: 'Project',
 
   async mounted() {
     this.$store.commit('SET_SIDEBAR_OPTION', this.$route.name.toLowerCase())
-    await this.getMembros()
+    const res = await this.findAllProjects()
+    this.dados = res.projects
   },
 
   data() {
     return {
       dados: [],
-      novoMembro: {
-        name: '',
-        email: '',
-        phone: '',
-        birthDate: '',
-        entryDate: '',
-        habilidades: [],
-        diretoria: ''
-      }
     }
-  },
-
-  computed: {
-    showModal() {
-      return this.$store.state.header.modal === 'membro'
-    },
   },
 
   methods: {
@@ -106,23 +70,10 @@ export default {
       findAllMembers: 'findAllMembers',
     }),
 
-    async getMembros() {
-      const res = await this.findAllMembers()
-      this.dados = res.members
-    },
-
     formatDate(row, column, prop) {
       return Utils.formatDate(prop)
     },
-
-    closeModal () {
-      this.$store.commit('SET_MODAL', '')
-    },
-
-    salvar () {
-      console.log(this.novoMembro)
-    }
-  }
+  },
 }
 </script>
 
@@ -130,6 +81,6 @@ export default {
 .el-card {
   margin-left: 2%;
   margin-right: 2%;
-  margin-top: 2%;
+  margin-top: 2%
 }
 </style>
