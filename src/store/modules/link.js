@@ -1,33 +1,33 @@
 import axios from '@/utils/axios'
 
 const actions = {
-    async findAllMembers({ commit }) {
+    async findAllLinks({ commit }) {
         const result = await axios({
             method: 'GET',
-            url: 'member'
+            url: 'link'
         })
         return result.data
     },
-    async createMember({ commit }, member) {
+    async createLink({ commit }, link) {
         const result = await axios({
             method: 'POST',
-            url: 'member',
-            data: member
+            url: 'link',
+            data: link
         })
         return result.data
     },
-    async updateMember({ commit }, dados) {
+    async updateLink({ commit }, dados) {
         const result = await axios({
             method: 'PATCH',
-            url: `member/${dados.id}`,
-            data: dados.membro
+            url: `link/${dados.id}`,
+            data: dados.link
         })
         return result.data
     },
-    async deleteMember({ commit }, id) {
+    async deleteLink({ commit }, id) {
         const result = await axios({
             method: 'DELETE',
-            url: `member/${id}`
+            url: `link/${id}`
         })
         return result.data
     }

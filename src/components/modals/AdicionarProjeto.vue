@@ -3,8 +3,13 @@ div.modal-content
   div.col
     el-input(
 			placeholder="Nome"
-			v-model="membro.name"
+			v-model="projeto.name"
       :disabled="isVisualizar"
+		)
+    el-input(
+			placeholder="Descrição"
+			v-model="projeto.description"
+			:disabled="isVisualizar"
 		)
     div.date-pickers
       el-date-picker(
@@ -12,7 +17,7 @@ div.modal-content
 				format="DD/MM/YYYY"
 				value-format="YYYY-MM-DD"
 				style="width: 100%"
-				v-model="membro.birthDate"
+				v-model="projeto.startDate"
         :disabled="isVisualizar"
 			)
       el-date-picker(
@@ -20,52 +25,55 @@ div.modal-content
 				format="DD/MM/YYYY"
 				value-format="YYYY-MM-DD"
 				style="width: 100%"
-				v-model="membro.entryDate"
+				v-model="projeto.finishDate"
         :disabled="isVisualizar"
 			)
     el-select(
 			multiple
 			collapse-tags
 			collapse-tags-tooltip
-      v-model="membro.habilities"
-      placeholder="Selecione habilidades"
+      v-model="projeto.tags"
+      placeholder="Selecione tags"
       value-key="id"
       :disabled="isVisualizar"
     )
       el-option(
-				v-for="habilidade in habilidades",
-				:key="habilidade.id",
-				:label="habilidade.value",
-				:value="habilidade.value"
+				v-for="tag in tags",
+				:key="tag.id",
+				:label="tag.value",
+				:value="tag.value"
       )
     el-select(
-      v-model="membro.department"
-      placeholder="Selecione a diretoria"
+			multiple
+			collapse-tags
+			collapse-tags-tooltip
+      v-model="projeto.team"
+      placeholder="Selecione o time"
       value-key="id"
       :disabled="isVisualizar"
     )
       el-option(
-				v-for="diretoria in diretorias",
-				:key="diretoria.id",
-				:label="diretoria.value",
-				:value="diretoria.value"
+				v-for="member in members",
+				:key="member._id",
+				:label="member.name",
+				:value="member._id"
       )
   div.col
     el-input(
-			placeholder="Email"
-			v-model="membro.email"
+			placeholder="Link do contrato"
+			v-model="projeto.contractLink"
       :disabled="isVisualizar"
 		)
     el-input(
-			placeholder="Telefone"
-			v-model="membro.phone"
+			placeholder="Contato do cliente"
+			v-model="projeto.customer.contact"
 			v-mask="['(##)#####-####']"
       :disabled="isVisualizar"
 		)
     el-input(
-			v-model="membro.observations"
+			v-model="projeto.customer.name"
 			type="textarea"
-			placeholder="Observações"
+			placeholder="Nome do cliente"
       :disabled="isVisualizar"
 		)
 </template>
@@ -75,24 +83,24 @@ import { mapActions } from 'vuex'
 import Utils from '@/utils/utils'
 
 export default {
-  name: 'AdicionarMembro',
+  name: 'AdicionarProjeto',
 
   props: {
-    membro: {
+    projeto: {
       type: Object,
       required: true,
     },
     isVisualizar: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
     return {
       dados: [],
-      habilidades: [
+      tags: [
         {
           id: 1,
           value: 'Backend',
@@ -106,25 +114,18 @@ export default {
           value: 'Comunicação',
         },
       ],
-      diretorias: [
-        {
-          id: 1,
-          value: 'Projetos',
-        },
-        {
-          id: 2,
-          value: 'Presidência',
-        },
-        {
-          id: 3,
-          value: 'Pessoas',
-        },
-      ],
+      members: []
     }
   },
 
+	async mounted () {
+		const res = await this.findAllMembers() 
+		this.members = res.members
+	},
+
   methods: {
     ...mapActions({
+			findAllMembers: 'findAllMembers',
       findById: 'findById',
     }),
   },

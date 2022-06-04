@@ -48,6 +48,13 @@ export default {
   methods: {
     handleOption (option) {
       this.$store.commit('SET_SIDEBAR_OPTION', option)
+      if (this.isMember) {
+        this.$router.push({ name: 'Member' })
+      } else if (this.isProject) {
+        this.$router.push({ name: 'Project' })
+      } else if (this.isLink) {
+        this.$router.push({ name: 'Link' })
+      }
     }
   }
 }

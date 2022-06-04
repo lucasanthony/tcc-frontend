@@ -10,18 +10,18 @@ div
         label="Nome",
       )
       el-table-column(
-        prop="description",
-        label="Descrição",
-      )
+        prop="departments",
+				label="Departamentos",
+				:formatter="formatList"
+			)
       el-table-column(
-        prop="role",
-        label="Função",
-      )
+        prop="url",
+				label="URL",
+			)
       el-table-column(
-        prop="startDate",
-        label="Data de início",
-        :formatter="formatDate"
-      )
+        prop="url",
+				label="URL",
+			)
       el-table-column(
         label="Ações"
         align="right"
@@ -53,10 +53,10 @@ div
     @close="closeModal"
     v-model="showModal"
   )
-    adicionar-projeto(
+    adicionar-link(
       :titleModal='titleModal'
       :isVisualizar="isVisualizar"
-      :projeto="novoProjeto"
+      :link="novoLink"
     )
     template(
       #footer
@@ -73,115 +73,119 @@ div
 <script>
 import { mapActions } from 'vuex'
 import Utils from '@/utils/utils'
-import AdicionarProjeto from '@/components/modals/AdicionarProjeto.vue'
+import AdicionarLink from '@/components/modals/AdicionarLink.vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import models from '@/constants/models'
 import { cloneDeep } from 'lodash'
 
 export default {
-  name: 'Project',
+  name: 'Link',
 
   components: {
-    AdicionarProjeto
+    AdicionarLink,
   },
 
   async mounted() {
     this.$store.commit('SET_SIDEBAR_OPTION', this.$route.name.toLowerCase())
-    const res = await this.findAllProjects()
-    this.dados= res.projects
+    const res = await this.findAllLinks()
+    this.dados = res.links
     console.log(res)
   },
 
   data() {
     return {
       dados: [],
-      novoProjeto: cloneDeep(models.emptyProject),
-      titleModal: 'Adicionar Projeto',
+      novoLink: cloneDeep(models.emptyLink),
+      titleModal: 'Adicionar Link',
       isEditar: false,
-      isVisualizar: false
+      isVisualizar: false,
     }
   },
 
   computed: {
     showModal() {
-      return this.$store.state.header.modal === 'projeto'
+      return this.$store.state.header.modal === 'link'
     },
   },
 
   methods: {
     ...mapActions({
-      findAllProjects: 'findAllProjects',
-      createProject: 'createProject',
-      deleteProject: 'deleteProject'
+      findAllLinks: 'findAllLinks',
+      createLink: 'createLink',
+      deleteLink: 'deleteLink',
+      updateLink: 'updateLink'
     }),
 
     formatDate(row, column, prop) {
       return Utils.formatDate(prop)
     },
 
-    async getProjetos() {
-      const res = await this.findAllProjects()
-      this.dados = res.projects
+    async getLinks() {
+      const res = await this.findAllLinks()
+      this.dados = res.links
     },
 
     async salvar() {
       try {
-        const res = await this.createProject(this.novoProjeto)
+        const res = await this.createLink(this.novoLink)
         ElNotification({
           title: 'Tudo certo!',
-          message: `Projeto ${res.project.name} foi cadastrado com sucesso`,
+          message: `Link ${res.link.name} foi cadastrado com sucesso`,
           type: 'success',
         })
         this.$store.commit('SET_MODAL', '')
-        await this.getProjetos()
-        this.novoProjeto = cloneDeep(models.emptyProject)
+        await this.getLinks()
+        this.novoLink = cloneDeep(models.emptyLink)
       } catch (error) {}
     },
 
-    async editar () {
+    async editar() {
       try {
-        const res = await this.updateProject({ membro: this.novoProjeto, id: this.novoProjeto._id })
+        const res = await this.updateLink({
+          link: this.novoLink,
+          id: this.novoLink._id,
+        })
         this.isEditar = false
         this.$store.commit('SET_MODAL', '')
         ElNotification({
           title: 'Tudo certo!',
-          message: `${res.project.name} foi editado com sucesso`,
+          message: `${res.link.name} foi editado com sucesso`,
           type: 'success',
         })
-        await this.getProjetos()
-        this.novoProjeto = cloneDeep(models.emptyProject)
+        await this.getLinks()
+        this.novoLink = cloneDeep(models.emptyLink)
       } catch (error) {}
     },
 
-    handleEditar (index, row) {
+    handleEditar(index, row) {
       this.isEditar = true
-      this.novoProjeto = row
-      this.titleModal = 'Editar projeto'
-      this.$store.commit('SET_MODAL', 'projeto')
+      this.novoLink = row
+      this.titleModal = 'Editar link'
+      this.$store.commit('SET_MODAL', 'link')
     },
 
-    handleVisualizar (index, row) {
+    handleVisualizar(index, row) {
       this.isVisualizar = true
-      this.novoProjeto = row
+      this.novoLink = row
       this.titleModal = row.name
-      this.$store.commit('SET_MODAL', 'projeto')
+      this.$store.commit('SET_MODAL', 'link')
     },
 
     async excluir(index, row) {
       try {
-        await this.deleteProject(row._id)
+        await this.deleteLink(row._id)
         ElNotification({
           title: 'Tudo certo!',
-          message: 'Projeto removido com sucesso',
+          message: 'Link removido com sucesso',
           type: 'success',
         })
-        await this.getProjetos()
+        await this.getLinks()
       } catch (error) {}
     },
 
-    handleExcluir (index, row) {
+    handleExcluir(index, row) {
       ElMessageBox.confirm(
-        `Excluir projeto ${row.name} do sistema?`,
+        `Excluir link ${row.name} do sistema?`,
         'Atenção',
         {
           confirmButtonText: 'Excluir',
@@ -190,12 +194,24 @@ export default {
         }
       ).then(async () => {
         await this.excluir(index, row)
-        })
+      })
     },
 
-    handleClose () {
+    handleClose() {
       this.$store.commit('SET_MODAL', '')
-    }
+    },
+
+		formatList(row, column, prop) {
+			let listFormated = ''
+			prop.forEach((item, index) => {
+				if (index !== prop.length-1) {
+					listFormated += item + ', '
+				} else {
+					listFormated += item
+				}
+			})
+      return listFormated
+    },
   }
 }
 </script>
@@ -204,6 +220,6 @@ export default {
 .el-card {
   margin-left: 2%;
   margin-right: 2%;
-  margin-top: 2%
+  margin-top: 2%;
 }
 </style>

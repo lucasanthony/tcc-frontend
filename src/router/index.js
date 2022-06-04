@@ -4,6 +4,8 @@ import Home from '../pages/Home.vue'
 // import Cadastro from '../pages/Cadastro.vue'
 import Login from '../pages/Login.vue'
 import Member from '../pages/Member.vue'
+import Project from '../pages/Project.vue'
+import Link from '../pages/Link.vue'
 
 const routes = [
     {
@@ -20,6 +22,16 @@ const routes = [
         name: 'Member',
         path: '/membros',
         component: Member
+    },
+    {
+        name: 'Project',
+        path: '/projetos',
+        component: Project
+    },
+    {
+        name: 'Link',
+        path: '/links',
+        component: Link
     }
 ]
 

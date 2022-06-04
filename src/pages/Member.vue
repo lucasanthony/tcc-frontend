@@ -30,26 +30,32 @@ div
           #default="scope"
         )
           el-button(
+            @click="handleVisualizar(scope.$index, scope.row)"
             type="success"
             size="small"
           )
             View
           el-button(
+            @click="handleEditar(scope.$index, scope.row)"
             type="primary"
             size="small"
           )
             edit
           el-button(
+            @click="handleExcluir(scope.$index, scope.row)"
             type="danger"
             size="small"
           )
             delete
   el-dialog(
-    title="Adicionar Membro"
+    :before-close="handleClose"
+    :title="titleModal"
     @close="closeModal"
     v-model="showModal"
   )
     adicionar-membro(
+      :titleModal='titleModal'
+      :isVisualizar="isVisualizar"
       :membro="novoMembro"
     )
     template(
@@ -57,7 +63,8 @@ div
     )
       span.dialog-footer
         el-button(
-          @click="salvar"
+          v-if="!isVisualizar"
+          @click="isEditar ? editar() : salvar()"
           type="primary"
           color="#4b53c6"
         ) Salvar
@@ -67,6 +74,9 @@ div
 import { mapActions } from 'vuex'
 import Utils from '@/utils/utils'
 import AdicionarMembro from '@/components/modals/AdicionarMembro.vue'
+import { ElNotification, ElMessageBox } from 'element-plus'
+import models from '@/constants/models'
+import { cloneDeep } from 'lodash'
 
 export default {
   name: 'Member',
@@ -83,15 +93,10 @@ export default {
   data() {
     return {
       dados: [],
-      novoMembro: {
-        name: '',
-        email: '',
-        phone: '',
-        birthDate: '',
-        entryDate: '',
-        habilidades: [],
-        diretoria: ''
-      }
+      novoMembro: cloneDeep(models.emptyMember),
+      isEditar: false,
+      isVisualizar: false,
+      titleModal: 'Adicionar Membro'
     }
   },
 
@@ -104,6 +109,9 @@ export default {
   methods: {
     ...mapActions({
       findAllMembers: 'findAllMembers',
+      createMember: 'createMember',
+      updateMember: 'updateMember',
+      deleteMember: 'deleteMember'
     }),
 
     async getMembros() {
@@ -112,15 +120,87 @@ export default {
     },
 
     formatDate(row, column, prop) {
-      return Utils.formatDate(prop)
+      return prop ? Utils.formatDate(prop) : '-'
     },
 
-    closeModal () {
+    closeModal() {
+      this.isVisualizar = false
+      this.isEditar = false
+      this.novoMembro = cloneDeep(models.emptyMember)
       this.$store.commit('SET_MODAL', '')
     },
 
-    salvar () {
-      console.log(this.novoMembro)
+    async salvar() {
+      try {
+        const res = await this.createMember(this.novoMembro)
+        ElNotification({
+          title: 'Tudo certo!',
+          message: `${res.member.name} foi cadastrado com sucesso`,
+          type: 'success',
+        })
+        this.$store.commit('SET_MODAL', '')
+        await this.getMembros()
+        this.novoMembro = cloneDeep(models.emptyMember)
+      } catch (error) {}
+    },
+
+    async excluir(index, row) {
+      try {
+        await this.deleteMember(row._id)
+        ElNotification({
+          title: 'Tudo certo!',
+          message: 'Membro removido com sucesso',
+          type: 'success',
+        })
+        await this.getMembros()
+      } catch (error) {}
+    },
+
+    handleExcluir (index, row) {
+      ElMessageBox.confirm(
+        `Excluir membro ${row.name} do sistema?`,
+        'Atenção',
+        {
+          confirmButtonText: 'Excluir',
+          cancelButtonText: 'Cancelar',
+          type: 'warning',
+        }
+      ).then(async () => {
+        await this.excluir(index, row)
+        })
+    },
+
+    async editar () {
+      try {
+        const res = await this.updateMember({ membro: this.novoMembro, id: this.novoMembro._id })
+        this.isEditar = false
+        this.$store.commit('SET_MODAL', '')
+        ElNotification({
+          title: 'Tudo certo!',
+          message: `${res.member.name} foi editado com sucesso`,
+          type: 'success',
+        })
+        await this.getMembros()
+        this.novoMembro = cloneDeep(models.emptyMember)
+      } catch (error) {}
+    },
+
+    handleEditar (index, row) {
+      this.isEditar = true
+      this.novoMembro = row
+      this.titleModal = 'Editar Membro'
+      this.$store.commit('SET_MODAL', 'membro')
+    },
+
+    handleVisualizar (index, row) {
+      this.isVisualizar = true
+      this.novoMembro = row
+      this.titleModal = row.name
+      this.$store.commit('SET_MODAL', 'membro')
+    },
+
+    handleClose () {
+      this.$store.commit('SET_MODAL', '')
     }
   }
 }
