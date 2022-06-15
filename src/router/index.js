@@ -6,6 +6,7 @@ import Login from '../pages/Login.vue'
 import Member from '../pages/Member.vue'
 import Project from '../pages/Project.vue'
 import Link from '../pages/Link.vue'
+import Settings from '../pages/Settings.vue'
 
 const routes = [
     {
@@ -32,6 +33,11 @@ const routes = [
         name: 'Link',
         path: '/links',
         component: Link
+    },
+    {
+        name: 'Settings',
+        path: '/configuracoes',
+        component: Settings
     }
 ]
 

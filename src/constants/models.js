@@ -32,8 +32,18 @@ const emptyLink = {
     observations: ''
 }
 
+const emptyUser = {
+    name: '',
+    email: '',
+    role: '',
+    birthDate: '',
+    password: '',
+    confirmPassword: ''
+}
+
 export default {
     emptyMember,
     emptyProject,
-    emptyLink
+    emptyLink,
+    emptyUser
 }

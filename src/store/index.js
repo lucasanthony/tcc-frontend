@@ -1,16 +1,5 @@
 import { createStore } from "vuex";
-import axios from 'axios'
 import actions from './modules/actions'
-
-const Api = axios.create({
-  baseURL: 'http://localhost:4444/',
-  headers: {
-    "Content-type": "application/json",
-    "Authorization": "Bearer " + localStorage.getItem("auth_token")
-  },
-  withCredentials: true
-});
-
 
 const store = createStore({
   state: {

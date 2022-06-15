@@ -26,6 +26,9 @@ export default {
     isLink() {
       return this.$store.state.sidebar.activeOption === 'link'
     },
+    isSettings() {
+      return this.$store.state.sidebar.activeOption === 'settings'
+    },
 
     title() {
       if (this.isMember) {
@@ -34,6 +37,8 @@ export default {
         return 'Projetos'
       } else if (this.isLink) {
         return 'Links'
+      } else if (this.isSettings) {
+        return 'Configurações'
       }
     },
 
@@ -44,6 +49,8 @@ export default {
         return 'Adicionar projeto'
       } else if (this.isLink) {
         return 'Adicionar link'
+      } else if (this.isSettings) {
+        return 'Adicionar usuário'
       }
     },
   },
@@ -56,6 +63,8 @@ export default {
         this.$store.commit('SET_MODAL', 'projeto')
       } else if (this.isLink) {
         this.$store.commit('SET_MODAL', 'link')
+      } else if (this.isSettings) {
+        this.$store.commit('SET_MODAL', 'settings')
       }
     },
   },

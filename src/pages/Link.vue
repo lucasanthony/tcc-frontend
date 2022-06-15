@@ -16,7 +16,7 @@ div
 			)
       el-table-column(
         prop="url",
-				label="URL",
+			  label="URL",
 			)
       el-table-column(
         prop="url",
@@ -29,6 +29,12 @@ div
         template(
           #default="scope"
         )
+          el-button(
+            @click="copyNick(scope.row)"
+            type="success"
+            size="small"
+          )
+            CopyDocument
           el-button(
             @click="handleVisualizar(scope.$index, scope.row)"
             type="success"
@@ -212,6 +218,22 @@ export default {
 			})
       return listFormated
     },
+
+    copyNick (row) {
+      let input = document.createElement("input");
+      input.value = `[${row.name}]\n ${row.url}`;
+      document.body.appendChild(input);
+      input.select();
+
+      document.execCommand('copy');
+      document.body.removeChild(input);
+
+      ElNotification({
+          title: 'Tudo certo!',
+          message: `Link copiado para a área de tranferência`,
+          type: 'success',
+        })
+    }
   }
 }
 </script>

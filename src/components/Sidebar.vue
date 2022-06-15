@@ -27,6 +27,15 @@ div.sidebar
         :style="isLink ? 'color: white' : 'color: #808080'"
         :size="20"
       )
+  div.sidebar-button#settings-button(
+    :style="isSettings ? 'background: #4b53c6' : 'background: #e6e6e6'"
+    @click="handleOption('settings')"
+  )
+    el-icon
+      setting(
+        :style="isSettings ? 'color: white' : 'color: #808080'"
+        :size="20"
+      )
 </template>
 
 <script>
@@ -42,6 +51,9 @@ export default {
     },
     isLink () {
       return this.$store.state.sidebar.activeOption === 'link'
+    },
+    isSettings() {
+      return this.$store.state.sidebar.activeOption === 'settings'
     }
   },
 
@@ -54,6 +66,8 @@ export default {
         this.$router.push({ name: 'Project' })
       } else if (this.isLink) {
         this.$router.push({ name: 'Link' })
+      } else if (this.isSettings) {
+        this.$router.push({ name: 'Settings' })
       }
     }
   }
@@ -84,6 +98,13 @@ export default {
 
   .sidebar-button:hover {
     cursor: pointer;
+  }
+
+  #settings-button {
+    bottom: 02%;
+    position: absolute;
+    width: 37%;
+    height: 8%;
   }
 
   .el-icon {
