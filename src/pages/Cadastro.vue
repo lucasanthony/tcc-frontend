@@ -26,7 +26,12 @@ div.cadastro-page
           type="primary"
           round
           @click="save"
-      ) Salvar
+      ) Criar conta
+      el-button(
+          type="secondary"
+          round
+          @click="login"
+      ) Entrar
 </template>
 
 <script>
@@ -72,7 +77,11 @@ export default {
       }
       
     },
-  },
+
+    login () {
+      this.$router.push({ name: 'Login' })
+    }
+  }
 }
 </script>
 

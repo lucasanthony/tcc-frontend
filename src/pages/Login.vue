@@ -14,6 +14,10 @@ div.login-page
       type="primary"
       @click="entrar"
     ) Entrar
+    el-button(
+      type="secondary"
+      @click="cadastro"
+    ) Criar uma conta
 </template>
 
 <script>
@@ -58,6 +62,10 @@ export default {
           console.error(error.message)
         }
       }
+    },
+
+    cadastro () {
+      this.$router.push({ name: 'Cadastro' })
     },
 
     validarCampos() {

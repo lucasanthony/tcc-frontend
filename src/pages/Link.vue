@@ -95,7 +95,6 @@ export default {
     this.$store.commit('SET_SIDEBAR_OPTION', this.$route.name.toLowerCase())
     const res = await this.findAllLinks()
     this.dados = res.links
-    console.log(res)
   },
 
   data() {
