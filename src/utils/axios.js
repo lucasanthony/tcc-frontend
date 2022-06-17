@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const Axios = axios.create({
-    // baseURL: 'https://tcc-ej-api.herokuapp.com/',
-    baseURL: 'http://localhost:4444/',
+    baseURL: 'https://tcc-ej-api.herokuapp.com/',
+    // baseURL: 'http://localhost:4444/',
     headers: {
         "Content-type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem("@jwt")
