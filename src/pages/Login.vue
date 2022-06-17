@@ -18,6 +18,8 @@ div.login-page
 
 <script>
 import { mapActions } from 'vuex'
+import { ElNotification, ElMessageBox } from 'element-plus'
+
 export default {
   name: 'Login',
 
@@ -44,9 +46,15 @@ export default {
         try {
           const res = await this.login(this.dados)
           localStorage.setItem('@jwt', res.dados.token)
+          localStorage.setItem('@role', res.dados.user.role)
           this.$store.commit('SHOW_SIDEBAR', true)
           this.$router.push({ name: 'Member' })
         } catch (error) {
+          ElNotification({
+            title: 'Ops!',
+            message: 'Usuário ou senha incorretos',
+            type: 'error',
+          })
           console.error(error.message)
         }
       }

@@ -28,6 +28,7 @@ div.sidebar
         :size="20"
       )
   div.sidebar-button#settings-button(
+    v-if="isPresident"
     :style="isSettings ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('settings')"
   )
@@ -52,8 +53,11 @@ export default {
     isLink () {
       return this.$store.state.sidebar.activeOption === 'link'
     },
-    isSettings() {
+    isSettings () {
       return this.$store.state.sidebar.activeOption === 'settings'
+    },
+    isPresident () {
+      return localStorage.getItem("@role") === 'presidente'
     }
   },
 

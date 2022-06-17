@@ -1,12 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import { profile, getIsUsuarioAutenticado, logout } from '@/store/auth';
 import Home from '../pages/Home.vue'
-// import Cadastro from '../pages/Cadastro.vue'
+import Cadastro from '../pages/Cadastro.vue'
 import Login from '../pages/Login.vue'
 import Member from '../pages/Member.vue'
 import Project from '../pages/Project.vue'
 import Link from '../pages/Link.vue'
 import Settings from '../pages/Settings.vue'
+
+const isUsuarioAutenticado = () => {
+    return !!localStorage.getItem('@jwt')
+}
+
+const isPresident = () => {
+    return localStorage.getItem('@role') === 'presidente'
+}
 
 const routes = [
     {
@@ -20,55 +27,79 @@ const routes = [
         component: Login
     },
     {
+        name: 'Cadastro',
+        path: '/cadastrar',
+        component: Cadastro
+    },
+    {
         name: 'Member',
         path: '/membros',
-        component: Member
+        component: Member,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         name: 'Project',
         path: '/projetos',
-        component: Project
+        component: Project,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         name: 'Link',
         path: '/links',
-        component: Link
+        component: Link,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         name: 'Settings',
         path: '/configuracoes',
-        component: Settings
+        component: Settings,
+        meta: {
+            requiresAuth: true,
+            requiresPresidentRole: true
+        }
     }
 ]
 
-
-// router.beforeEach(async (to, from, next) => {
-//     const perfilAutenticado = getIsUsuarioAutenticado();
-
-//     if (!perfilAutenticado) {
-//         logout();
-//     }
-
-//     let init = 'Home';
-
-//     if (profile === PERFIL_AUTENTICADO.VISTORIA_EXTERNO || profile === PERFIL_AUTENTICADO.VISTORIA_INTERNO) {
-//         init = 'ListagemVistorias';
-//     } else if (profile === PERFIL_AUTENTICADO.VISTORIA_INDICADORES) {
-//         init = 'RelatorioVistorias';
-//     } else {
-//         logout();
-//     }
-
-//     if (!to?.meta?.access?.includes(profile)) {
-//         next({ name: init });
-//     } else {
-//         next();
-//     }
-// });
+const noAuthRoutes = ['/cadastrar', '/entrar']
 
 const router = createRouter({
     history: createWebHistory('/'),
     routes
+})
+
+router.beforeEach((to, from, next) => {
+    if (from.path === '/' && noAuthRoutes.includes(to.path)) {
+        if (isUsuarioAutenticado()) {
+            next({ name: 'Member' })
+        } else {
+            next()
+        }
+    }
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        // this route requires auth, check if logged in
+        // if not, redirect to login page.
+        if (!isUsuarioAutenticado()) {
+            next({ name: 'Login' })
+        } else {
+            if (to.matched.some(record => record.meta.requiresPresidentRole)) {
+                if (!isPresident()) {
+                    next({ name: 'Member' })
+                } else {
+                    next()
+                }
+            } else {
+                next() // go to wherever I'm going
+            }
+        }
+    } else {
+        next() // does not require auth, make sure to always call next()!
+    }
 })
 
 export default router;

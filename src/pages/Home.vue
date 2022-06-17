@@ -28,7 +28,7 @@ export default {
 
   methods: {
     cadastrarEj() {
-      this.isCadastro = true
+      this.$router.push({ name: 'Cadastro' })
     },
     entrar() {
       this.$router.push({ name: 'Login' })
