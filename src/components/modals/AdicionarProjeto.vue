@@ -1,81 +1,114 @@
 <template lang="pug">
 div.modal-content
   div.col
-    el-input(
-			placeholder="Nome"
-			v-model="projeto.name"
-      :disabled="isVisualizar"
-		)
-    el-input(
-			placeholder="Descrição"
-			v-model="projeto.description"
-			:disabled="isVisualizar"
-		)
+    el-row
+      el-divider(
+        content-position="left"
+      ) Nome
+      el-input(
+		  	placeholder="Nome"
+		  	v-model="projeto.name"
+        :disabled="isVisualizar"
+		  )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Descrição
+      el-input(
+		  	placeholder="Descrição"
+		  	v-model="projeto.description"
+		  	:disabled="isVisualizar"
+		  )
     div.date-pickers
-      el-date-picker(
-				placeholder="Data de nascimento"
-				format="DD/MM/YYYY"
-				value-format="YYYY-MM-DD"
-				style="width: 100%"
-				v-model="projeto.startDate"
+      el-row
+        el-divider(
+          content-position="left"
+        ) Data de início
+        el-date-picker(
+			  	placeholder="Data de início"
+			  	format="DD/MM/YYYY"
+			  	value-format="YYYY-MM-DD"
+			  	style="width: 100%"
+			  	v-model="projeto.startDate"
+          :disabled="isVisualizar"
+			  )
+      el-row
+        el-divider(
+          content-position="left"
+        ) Data de término
+        el-date-picker(
+			  	placeholder="Data de finalização"
+			  	format="DD/MM/YYYY"
+			  	value-format="YYYY-MM-DD"
+			  	style="width: 100%"
+			  	v-model="projeto.finishDate"
+          :disabled="isVisualizar"
+			  )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Tags
+      el-select(
+		  	multiple
+        v-model="projeto.tags"
+        placeholder="Selecione tags"
+        value-key="id"
         :disabled="isVisualizar"
-			)
-      el-date-picker(
-				placeholder="Data de entrada"
-				format="DD/MM/YYYY"
-				value-format="YYYY-MM-DD"
-				style="width: 100%"
-				v-model="projeto.finishDate"
-        :disabled="isVisualizar"
-			)
-    el-select(
-			multiple
-			collapse-tags
-			collapse-tags-tooltip
-      v-model="projeto.tags"
-      placeholder="Selecione tags"
-      value-key="id"
-      :disabled="isVisualizar"
-    )
-      el-option(
-				v-for="tag in tags",
-				:key="tag.id",
-				:label="tag.value",
-				:value="tag.value"
       )
-    el-select(
-			multiple
-			collapse-tags
-			collapse-tags-tooltip
-      v-model="projeto.team"
-      placeholder="Selecione o time"
-      value-key="id"
-      :disabled="isVisualizar"
-    )
-      el-option(
-				v-for="member in members",
-				:key="member._id",
-				:label="member.name",
-				:value="member._id"
-      )
+        el-option(
+		  		v-for="tag in tags",
+		  		:key="tag.id",
+		  		:label="tag.value",
+		  		:value="tag.value"
+        )
   div.col
-    el-input(
-			placeholder="Link do contrato"
-			v-model="projeto.contractLink"
-      :disabled="isVisualizar"
-		)
-    el-input(
-			placeholder="Contato do cliente"
-			v-model="projeto.customer.contact"
-			v-mask="['(##)#####-####']"
-      :disabled="isVisualizar"
-		)
-    el-input(
-			v-model="projeto.customer.name"
-			type="textarea"
-			placeholder="Nome do cliente"
-      :disabled="isVisualizar"
-		)
+    el-row
+      el-divider(
+        content-position="left"
+      ) Time
+      el-select(
+		  	multiple
+        v-model="projeto.team"
+        placeholder="Selecione o time"
+        value-key="id"
+        :disabled="isVisualizar"
+        :fit-input-width="true"
+      )
+        el-option(
+		  		v-for="member in members",
+		  		:key="member._id",
+		  		:label="member.name",
+		  		:value="member._id"
+        )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Link do contrato
+      el-input(
+		  	placeholder="Link do contrato"
+		  	v-model="projeto.contractLink"
+        :disabled="isVisualizar"
+		  )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Contato do cliente
+      el-input(
+		  	placeholder="Contato do cliente"
+		  	v-model="projeto.customer.contact"
+		  	v-mask="['(##)#####-####']"
+        :disabled="isVisualizar"
+		  )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Nome do cliente
+      el-input(
+		  	v-model="projeto.customer.name"
+		  	type="textarea"
+		  	placeholder="Nome do cliente"
+        :disabled="isVisualizar"
+		  )
 </template>
 
 <script>
@@ -103,16 +136,24 @@ export default {
       tags: [
         {
           id: 1,
-          value: 'Backend',
+          value: 'backend',
         },
         {
           id: 2,
-          value: 'Frontend',
+          value: 'frontend',
         },
         {
           id: 3,
-          value: 'Comunicação',
+          value: 'wordpress',
         },
+        {
+          id: 4,
+          value: 'assessoria',
+        },
+        {
+          id: 5,
+          value: 'treinamento',
+        }
       ],
       members: []
     }

@@ -1,14 +1,28 @@
 import axios from 'axios'
 
 const Axios = axios.create({
-    baseURL: 'https://tcc-ej-api.herokuapp.com/',
-    // baseURL: 'http://localhost:4444/',
+    baseURL: import.meta.env.DEV ? import.meta.env.VITE_API_BASE_URL_DEV : import.meta.env.VITE_API_BASE_URL_PROD,
     headers: {
-        "Content-type": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem("@jwt")
+        "Content-type": "application/json"
     },
     // withCredentials: true
 });
+
+Axios.interceptors.request.use(
+    (config) => {
+        let token = localStorage.getItem('@jwt');
+
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 // Api.interceptors.response.use(
 //     function (response) {

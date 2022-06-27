@@ -14,8 +14,10 @@ div
         label="Descrição",
       )
       el-table-column(
-        prop="role",
-        label="Função",
+        prop="team",
+        label="Time",
+        :formatter="formatList"
+        :width="210"
       )
       el-table-column(
         prop="startDate",
@@ -52,6 +54,7 @@ div
     :title="titleModal"
     @close="closeModal"
     v-model="showModal"
+    fullscreen=true
   )
     adicionar-projeto(
       :titleModal='titleModal'
@@ -155,6 +158,7 @@ export default {
     handleEditar (index, row) {
       this.isEditar = true
       this.novoProjeto = row
+      console.log(this.novoProjeto)
       this.titleModal = 'Editar projeto'
       this.$store.commit('SET_MODAL', 'projeto')
     },
@@ -194,7 +198,19 @@ export default {
 
     handleClose () {
       this.$store.commit('SET_MODAL', '')
-    }
+    },
+
+    formatList(row, column, prop) {
+			let listFormated = ''
+			prop.forEach((item, index) => {
+				if (index !== prop.length-1) {
+					listFormated += item.name + ', '
+				} else {
+					listFormated += item.name
+				}
+			})
+      return listFormated
+    },
   }
 }
 </script>

@@ -22,7 +22,7 @@ div.login-page
 
 <script>
 import { mapActions } from 'vuex'
-import { ElNotification, ElMessageBox } from 'element-plus'
+import { ElNotification } from 'element-plus'
 
 export default {
   name: 'Login',

@@ -10,17 +10,18 @@ div
         label="Nome",
       )
       el-table-column(
+        prop="url",
+			  label="URL",
+			)
+      el-table-column(
         prop="departments",
 				label="Departamentos",
 				:formatter="formatList"
 			)
       el-table-column(
-        prop="url",
-			  label="URL",
-			)
-      el-table-column(
-        prop="url",
-				label="URL",
+        prop="tags",
+				label="Tags",
+        :formatter="formatList"
 			)
       el-table-column(
         label="Ações"
