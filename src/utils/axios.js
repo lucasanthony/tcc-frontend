@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-console.log(import.meta.env)
 const Axios = axios.create({
     baseURL: import.meta.env.DEV ? import.meta.env.VITE_API_BASE_URL_DEV : import.meta.env.VITE_API_BASE_URL_PROD,
     headers: {
