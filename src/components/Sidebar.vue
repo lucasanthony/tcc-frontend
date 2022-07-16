@@ -1,5 +1,7 @@
 <template lang="pug">
 div.sidebar
+  div.user-info
+    span(v-html="userData")
   div.sidebar-button(
     :style="isMember ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('member')"
@@ -9,6 +11,7 @@ div.sidebar
         :style="isMember ? 'color: white' : 'color: #808080'"
         :size="20"
       )
+    span(v-if="!isMember") Membros
   div.sidebar-button(
     :style="isProject ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('project')"
@@ -18,6 +21,7 @@ div.sidebar
         :style="isProject ? 'color: white' : 'color: #808080'"
         :size="20"
       )
+    span(v-if="!isProject") Projetos
   div.sidebar-button(
     :style="isLink ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('link')"
@@ -27,6 +31,7 @@ div.sidebar
         :style="isLink ? 'color: white' : 'color: #808080'"
         :size="20"
       )
+    span(v-if="!isLink") Links
   div.sidebar-button#settings-button(
     v-if="isPresident"
     :style="isSettings ? 'background: #4b53c6' : 'background: #e6e6e6'"
@@ -40,8 +45,15 @@ div.sidebar
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Sidebar',
+
+  data() {
+    return {
+      userData: {}
+    }
+  },
 
   computed: {
     isMember () {
@@ -61,7 +73,15 @@ export default {
     }
   },
 
+  async mounted() {
+    this.userData = await this.getUserInfo()
+  },
+
   methods: {
+    ...mapActions({
+      userInfo: 'userInfo'
+    }),
+
     handleOption (option) {
       this.$store.commit('SET_SIDEBAR_OPTION', option)
       if (this.isMember) {
@@ -73,6 +93,14 @@ export default {
       } else if (this.isSettings) {
         this.$router.push({ name: 'Settings' })
       }
+    },
+
+    async getUserInfo () {
+      const info = await this.userInfo()
+      const formattedName = info.sub.name.split(' ')
+      const text = `<strong>${formattedName[0]} ${formattedName[1] || ''}</strong>, ${info.sub.role} da ${info.sub.ej.name}`
+      console.log(text);
+      return text
     }
   }
 }
@@ -90,6 +118,13 @@ export default {
   align-items: center;
   gap: 2%;
 
+  .user-info {
+    text-align: center;
+    position: fixed;
+    top: 2%;
+    width: inherit;
+  }
+
   .sidebar-button {
     background: #e6e6e6;
     height: 16%;
@@ -98,6 +133,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .sidebar-button:hover {
@@ -113,13 +151,17 @@ export default {
 
   .el-icon {
     width: 100%;
-    height: 100%;
+    height: 56%;
 
     svg {
       height: 3em;
       width: 3em;
       color: #808080;
     }
+  }
+
+  span {
+    color: #808080;
   }
 }
 </style>

@@ -48,6 +48,8 @@ div
           )
             delete
   el-dialog(
+    fullscreen=true
+    center
     :before-close="handleClose"
     :title="titleModal"
     @close="closeModal"

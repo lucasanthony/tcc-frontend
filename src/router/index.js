@@ -66,7 +66,7 @@ const routes = [
     }
 ]
 
-const noAuthRoutes = ['/cadastrar', '/entrar']
+const noAuthRoutes = ['/cadastrar', '/entrar', '/']
 
 const router = createRouter({
     history: createWebHistory('/'),

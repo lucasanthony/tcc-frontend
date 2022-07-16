@@ -50,6 +50,7 @@ div
           )
             delete
   el-dialog(
+    center
     :before-close="handleClose"
     :title="titleModal"
     @close="closeModal"
@@ -156,6 +157,7 @@ export default {
     },
 
     handleEditar (index, row) {
+      this.isVisualizar = false
       this.isEditar = true
       this.novoProjeto = row
       console.log(this.novoProjeto)

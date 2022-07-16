@@ -1,73 +1,105 @@
 <template lang="pug">
 div.modal-content
   div.col
-    el-input(
-			placeholder="Nome"
-			v-model="membro.name"
-      :disabled="isVisualizar"
-		)
+    el-row
+      el-divider(
+        content-position="left"
+      ) Nome
+      el-input(
+		  	placeholder="Nome"
+		  	v-model="membro.name"
+        :disabled="isVisualizar"
+		  )
     div.date-pickers
-      el-date-picker(
-				placeholder="Data de nascimento"
-				format="DD/MM/YYYY"
-				value-format="YYYY-MM-DD"
-				style="width: 100%"
-				v-model="membro.birthDate"
+      el-row
+        el-divider(
+          content-position="left"
+        ) Data de nascimento
+        el-date-picker(
+			  	placeholder="Data de nascimento"
+			  	format="DD/MM/YYYY"
+			  	value-format="YYYY-MM-DD"
+			  	style="width: 100%"
+			  	v-model="membro.birthDate"
+          :disabled="isVisualizar"
+			  )
+      el-row
+        el-divider(
+          content-position="left"
+        ) Data de entrada
+        el-date-picker(
+			  	placeholder="Data de entrada"
+			  	format="DD/MM/YYYY"
+			  	value-format="YYYY-MM-DD"
+			  	style="width: 100%"
+			  	v-model="membro.entryDate"
+          :disabled="isVisualizar"
+			  )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Habilidades
+      el-select(
+		  	multiple
+		  	collapse-tags
+		  	collapse-tags-tooltip
+        v-model="membro.habilities"
+        placeholder="Selecione habilidades"
+        value-key="id"
         :disabled="isVisualizar"
-			)
-      el-date-picker(
-				placeholder="Data de entrada"
-				format="DD/MM/YYYY"
-				value-format="YYYY-MM-DD"
-				style="width: 100%"
-				v-model="membro.entryDate"
+      )
+        el-option(
+		  		v-for="habilidade in habilidades",
+		  		:key="habilidade.id",
+		  		:label="habilidade.value",
+		  		:value="habilidade.value"
+        )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Diretoria
+      el-select(
+        v-model="membro.department"
+        placeholder="Selecione a diretoria"
+        value-key="id"
         :disabled="isVisualizar"
-			)
-    el-select(
-			multiple
-			collapse-tags
-			collapse-tags-tooltip
-      v-model="membro.habilities"
-      placeholder="Selecione habilidades"
-      value-key="id"
-      :disabled="isVisualizar"
-    )
-      el-option(
-				v-for="habilidade in habilidades",
-				:key="habilidade.id",
-				:label="habilidade.value",
-				:value="habilidade.value"
       )
-    el-select(
-      v-model="membro.department"
-      placeholder="Selecione a diretoria"
-      value-key="id"
-      :disabled="isVisualizar"
-    )
-      el-option(
-				v-for="diretoria in diretorias",
-				:key="diretoria.id",
-				:label="diretoria.value",
-				:value="diretoria.value"
-      )
+        el-option(
+		  		v-for="diretoria in diretorias",
+		  		:key="diretoria.id",
+		  		:label="diretoria.value",
+		  		:value="diretoria.value"
+        )
   div.col
-    el-input(
-			placeholder="Email"
-			v-model="membro.email"
-      :disabled="isVisualizar"
-		)
-    el-input(
-			placeholder="Telefone"
-			v-model="membro.phone"
-			v-mask="['(##)#####-####']"
-      :disabled="isVisualizar"
-		)
-    el-input(
-			v-model="membro.observations"
-			type="textarea"
-			placeholder="Observações"
-      :disabled="isVisualizar"
-		)
+    el-row
+      el-divider(
+        content-position="left"
+      ) Email
+      el-input(
+		  	placeholder="Email"
+		  	v-model="membro.email"
+        :disabled="isVisualizar"
+		  )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Telefone
+      el-input(
+		  	placeholder="Telefone"
+		  	v-model="membro.phone"
+		  	v-mask="['(##)#####-####']"
+        :disabled="isVisualizar"
+		  )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Observações
+      el-input(
+		  	v-model="membro.observations"
+		  	type="textarea"
+		  	placeholder="Observações"
+        :disabled="isVisualizar"
+		  )
 </template>
 
 <script>

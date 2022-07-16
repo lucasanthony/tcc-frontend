@@ -39,7 +39,8 @@ export default {
 
 <style lang="scss" scoped>
 #home {
-  background-color: red;
+  background-color: #e6e6e6;
+  // TODO Colocar o gradiente para outros navegadores
   background-image: -moz-linear-gradient(
       left top,
       #282a37 0%,
