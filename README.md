@@ -1,48 +1,6 @@
-# tcc-front
+## Um sistema para gerenciamento de empresas juniores
 
-This template should help get you started developing with Vue 3 in Vite.
+O projeto tem como objetivo criar uma aplicação web para que os diretores e pessoas autorizadas gerenciem dados relevantes da empresa.
+Desse modo, os gestores poderão cadastrar os projetos, membros e links que acharem importantes, bem como gerenciar o acesso ao sistema através da criação de novos usuários com suas respectivas senhas de acesso. Assim o sistema possibilitará que os integrantes da EJ dediquem mais tempo em experiências que possibilitam o crescimento profissional e menos em tarefas de gestão que deveriam ser simples. 
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-npm run build
-npm run test:e2e # or `npm run test:e2e:ci` for headless testing
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Repositório destinado ao backend: https://github.com/lucasanthony/tcc-backend
