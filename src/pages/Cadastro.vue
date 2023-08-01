@@ -17,6 +17,7 @@ div.cadastro-page
       el-input(
           placeholder="digite a senha"
           v-model="cadastroData.presidentData.password"
+          show-password
       )
       el-date-picker(
           placeholder="digite a sua data de nascimento"
