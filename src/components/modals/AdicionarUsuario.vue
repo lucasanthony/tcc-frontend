@@ -40,7 +40,6 @@ div.modal-content
 
 <script>
 import { mapActions } from 'vuex'
-import Utils from '@/utils/utils'
 
 export default {
   name: 'AdicionarUsuario',
@@ -63,11 +62,19 @@ export default {
       funcoes: [
         {
           id: 1,
-          value: 'gerente',
+          value: 'Presidente',
         },
         {
           id: 2,
-          value: 'diretor',
+          value: 'Diretor(a)',
+        },
+        {
+          id: 3,
+          value: 'Assessor(a)'
+        },
+        {
+          id: 4,
+          value: 'Conselheiro(a)'
         },
       ],
     }
