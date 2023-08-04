@@ -53,6 +53,7 @@ div
       :titleModal='titleModal'
       :isVisualizar="isVisualizar"
       :usuario="novoUsuario"
+      @setValid="setValid"
     )
 		template(
       #footer
@@ -88,6 +89,7 @@ export default {
 
   data() {
     return {
+      valid: true,
       dados: [],
       novoUsuario: cloneDeep(models.emptyUser),
       isEditar: false,
@@ -110,6 +112,10 @@ export default {
       deleteUser: 'deleteUser'
     }),
 
+    setValid(value) {
+      this.valid = value
+    },
+
     async getUsuarios() {
       const res = await this.findAllUsers()
       this.dados = res.users
@@ -128,15 +134,17 @@ export default {
 
     async salvar() {
       try {
-        const res = await this.createUser(this.novoUsuario)
-        ElNotification({
-          title: 'Tudo certo!',
-          message: `${res.user.name} foi cadastrado com sucesso`,
-          type: 'success',
-        })
-        this.$store.commit('SET_MODAL', '')
-        await this.getUsuarios()
-        this.novoUsuario = cloneDeep(models.emptyUser)
+        if(this.valid) {
+          const res = await this.createUser(this.novoUsuario)
+          ElNotification({
+           title: 'Tudo certo!',
+           message: `${res.user.name} foi cadastrado com sucesso`,
+            type: 'success',
+          })
+          this.$store.commit('SET_MODAL', '')
+          await this.getUsuarios()
+          this.novoUsuario = cloneDeep(models.emptyUser)
+        }
       } catch (error) {}
     },
 
