@@ -16,8 +16,13 @@ div.modal-content
 			type="password"
 			placeholder="Confirmar a senha"
 			v-model="usuario.confirmPassword"
+      @input="validatePassword"
       :disabled="isVisualizar"
 		)
+    el-text(
+      v-if="errorMessage"
+      style="color:red"
+    ) {{errorMessage}}
   div.col
     el-input(
 			placeholder="Email"
@@ -70,13 +75,23 @@ export default {
           value: 'diretor',
         },
       ],
-    }
+    };
   },
 
   methods: {
     ...mapActions({
       findById: 'findById',
     }),
+
+    validatePassword() {
+      if (this.usuario.password !== this.usuario.confirmPassword) {
+        this.errorMessage = 'As senhas não são iguais!';
+        this.$emit("setValid", false);
+      } else {
+        this.errorMessage = '';
+        this.$emit("setValid", true);
+      }
+    },
   },
 }
 </script>
