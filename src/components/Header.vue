@@ -1,10 +1,9 @@
 <template lang="pug">
 div.header
     span.title-header {{ title }}
-    el-button(
-      @click="openModal"
-    )
-      span {{ textButton2 }}
+    el-button.logoffSize(
+      @click="logoff"
+    ) Logoff
     el-button(
       @click="openModal"
     )
@@ -58,18 +57,6 @@ export default {
         return 'Adicionar usuário'
       }
     },
-
-    textButton2() {
-      if (this.isMember) {
-        return 'Fazer logoff'
-      } else if (this.isProject) {
-        return 'Fazer logoff'
-      } else if (this.isLink) {
-        return 'Fazer logoff'
-      } else if (this.isSettings) {
-        return 'Fazer logoff'
-      }
-    },
 },
 
   methods: {
@@ -82,7 +69,12 @@ export default {
         this.$store.commit('SET_MODAL', 'link')
       } else if (this.isSettings) {
         this.$store.commit('SET_MODAL', 'settings')
-      } 
+      }
+    },
+
+    logoff() {
+      localStorage.clear()
+      this.$router.push({ name: 'Login' })
     },
   },
 }
@@ -108,5 +100,11 @@ export default {
     margin-right: 5%;
     width: 15%;
   }
+
+  .logoffSize {
+    position: absolute;
+    left: 65%;
+  }
+
 }
 </style>
