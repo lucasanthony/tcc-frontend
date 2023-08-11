@@ -70,6 +70,23 @@ div.modal-content
 		  		:label="diretoria.value",
 		  		:value="diretoria.value"
         )
+    el-row
+      el-divider(
+          content-position="left"
+        ) Função
+      el-select(
+        v-model="membro.role"
+        placeholder="Selecione a função"
+        value-key="id"
+        :disabled="isVisualizar"
+      )
+        el-option(
+          v-for="funcao in funcoes",
+          :key="funcao.id",
+          :label="funcao.value",
+          :value="funcao.value"
+        )
+    
   div.col
     el-row
       el-divider(
@@ -80,6 +97,26 @@ div.modal-content
 		  	v-model="membro.email"
         :disabled="isVisualizar"
 		  )
+    el-row
+      el-divider(
+          content-position="left"
+        ) Senha
+      el-input(
+        type="password"
+        placeholder="Senha"
+        v-model="membro.password"
+        :disabled="isVisualizar"
+      )
+    el-row
+      el-divider(
+        content-position="left"
+      ) Confirmar a senha
+      el-input(
+        type="password"
+        placeholder="Confirmar a senha"
+        v-model="membro.confirmPassword"
+        :disabled="isVisualizar"
+      )
     el-row
       el-divider(
         content-position="left"
@@ -138,18 +175,50 @@ export default {
           value: 'Comunicação',
         },
       ],
+      
       diretorias: [
         {
           id: 1,
-          value: 'Projetos',
-        },
-        {
-          id: 2,
           value: 'Presidência',
         },
         {
+          id: 2,
+          value: 'Gente & Gestão',
+        },
+        {
           id: 3,
-          value: 'Pessoas',
+          value: 'Negócios',
+        },
+        {
+          id: 4,
+          value: 'Marketing',
+        },
+        {
+          id: 5,
+          value: 'Qualidade',
+        },
+        {
+          id: 6,
+          value: 'Projetos',
+        },
+      ],
+
+      funcoes: [
+        {
+          id: 1,
+          value: 'Presidente',
+        },
+        {
+          id: 2,
+          value: 'Diretor(a)',
+        },
+        {
+          id: 3,
+          value: 'Assessor(a)'
+        },
+        {
+          id: 4,
+          value: 'Conselheiro(a)'
         },
       ],
     }
