@@ -9,6 +9,7 @@ div.login-page
     el-input(
       placeholder="senha"
       v-model="dados.password"
+      show-password
     )
     el-button(
       type="primary"

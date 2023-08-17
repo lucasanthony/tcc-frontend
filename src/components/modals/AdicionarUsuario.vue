@@ -16,8 +16,13 @@ div.modal-content
 			type="password"
 			placeholder="Confirmar a senha"
 			v-model="usuario.confirmPassword"
+      @input="validatePassword"
       :disabled="isVisualizar"
 		)
+    el-text(
+      v-if="errorMessage"
+      style="color:red"
+    ) {{errorMessage}}
   div.col
     el-input(
 			placeholder="Email"
@@ -40,7 +45,6 @@ div.modal-content
 
 <script>
 import { mapActions } from 'vuex'
-import Utils from '@/utils/utils'
 
 export default {
   name: 'AdicionarUsuario',
@@ -63,20 +67,38 @@ export default {
       funcoes: [
         {
           id: 1,
-          value: 'gerente',
+          value: 'Presidente',
         },
         {
           id: 2,
-          value: 'diretor',
+          value: 'Diretor(a)',
+        },
+        {
+          id: 3,
+          value: 'Assessor(a)'
+        },
+        {
+          id: 4,
+          value: 'Conselheiro(a)'
         },
       ],
-    }
+    };
   },
 
   methods: {
     ...mapActions({
       findById: 'findById',
     }),
+
+    validatePassword() {
+      if (this.usuario.password !== this.usuario.confirmPassword) {
+        this.errorMessage = 'As senhas não são iguais!';
+        this.$emit("setValid", false);
+      } else {
+        this.errorMessage = '';
+        this.$emit("setValid", true);
+      }
+    },
   },
 }
 </script>
