@@ -1,6 +1,8 @@
 const emptyMember = {
     name: '',
     email: '',
+    password: '',
+    confirmPassword: '',
     phone: '',
     birthDate: '',
     entryDate: '',

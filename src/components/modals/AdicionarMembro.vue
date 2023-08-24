@@ -115,8 +115,13 @@ div.modal-content
         type="password"
         placeholder="Confirmar a senha"
         v-model="membro.confirmPassword"
+        @input="validatePassword"
         :disabled="isVisualizar"
       )
+      el-text.verifyPassword(
+        v-if="errorMessage"
+      ) {{ errorMessage }}
+
     el-row
       el-divider(
         content-position="left"
@@ -228,8 +233,19 @@ export default {
     ...mapActions({
       findById: 'findById',
     }),
-  },
-}
+
+    validatePassword() {
+      if (this.membro.password !== this.membro.confirmPassword) {
+        this.errorMessage = 'As senhas não são iguais!';
+        this.$emit("setValid", false);
+      } else {
+          this.errorMessage = '';
+          this.$emit("setValid", true);
+        }
+      }
+    },
+  }
+
 </script>
 
 <style lang="scss" scoped>
@@ -250,5 +266,11 @@ export default {
   display: flex;
   gap: 2%;
   margin-bottom: 1vh;
+}
+
+.verifyPassword {
+  color: red;
+  margin-top: 5px;
+  margin-left: 15px;
 }
 </style>
