@@ -99,7 +99,6 @@ export default {
       const info = await this.userInfo()
       const formattedName = info.sub.name.split(' ')
       const text = `<strong>${formattedName[0]} ${formattedName[1] || ''}</strong>, ${info.sub.role} da ${info.sub.ej.name}`
-      console.log(text);
       return text
     }
   }
