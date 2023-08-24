@@ -69,7 +69,7 @@ export default {
       return this.$store.state.sidebar.activeOption === 'settings'
     },
     isPresident () {
-      return localStorage.getItem("@role") === 'presidente'
+      return localStorage.getItem("@role") === 'Presidente'
     }
   },
 
