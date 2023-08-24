@@ -2,6 +2,7 @@
 div.header
 	span.title-header {{ title }}
 	el-button(
+    v-if="isLeadership"
     @click="openModal"
   )
 		span {{ textButton }}
@@ -28,6 +29,11 @@ export default {
     },
     isSettings() {
       return this.$store.state.sidebar.activeOption === 'settings'
+    },
+    isLeadership() {
+      return ["Presidente", "Diretor(a)"].includes(
+        localStorage.getItem("@role")
+      );
     },
 
     title() {
