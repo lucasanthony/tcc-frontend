@@ -160,7 +160,6 @@ export default {
       this.isVisualizar = false
       this.isEditar = true
       this.novoProjeto = row
-      console.log(this.novoProjeto)
       this.titleModal = 'Editar projeto'
       this.$store.commit('SET_MODAL', 'projeto')
     },
