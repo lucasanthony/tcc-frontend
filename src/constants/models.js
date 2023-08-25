@@ -8,7 +8,7 @@ const emptyMember = {
     entryDate: '',
     habilities: [],
     department: '',
-    obervations: ''
+    observations: ''
 }
 
 const emptyProject = {
