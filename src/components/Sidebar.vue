@@ -69,7 +69,7 @@ export default {
       return this.$store.state.sidebar.activeOption === 'settings'
     },
     isPresident () {
-      return localStorage.getItem("@role") === 'presidente'
+      return localStorage.getItem("@role") === 'Presidente'
     }
   },
 
@@ -99,7 +99,6 @@ export default {
       const info = await this.userInfo()
       const formattedName = info.sub.name.split(' ')
       const text = `<strong>${formattedName[0]} ${formattedName[1] || ''}</strong>, ${info.sub.role} da ${info.sub.ej.name}`
-      console.log(text);
       return text
     }
   }

@@ -1,14 +1,17 @@
 <template lang="pug">
 div.header
-	span.title-header {{ title }}
-	el-button(
-    v-if="isLeadership"
-    @click="openModal"
-  )
-		span {{ textButton }}
-		div
-			el-icon
-				plus
+   span.title-header {{ title }}
+   el-button.logoffSize(
+      @click="logoff"
+   ) Logoff
+   el-button(
+      v-if="isLeadership"
+      @click="openModal"
+   )
+      span {{ textButton }}
+      div
+         el-icon
+         plus
 </template>
 
 <script>
@@ -45,6 +48,7 @@ export default {
         return 'Links'
       } else if (this.isSettings) {
         return 'Configurações'
+
       }
     },
 
@@ -59,7 +63,7 @@ export default {
         return 'Adicionar usuário'
       }
     },
-  },
+},
 
   methods: {
     openModal() {
@@ -72,6 +76,11 @@ export default {
       } else if (this.isSettings) {
         this.$store.commit('SET_MODAL', 'settings')
       }
+    },
+
+    logoff() {
+      localStorage.clear()
+      this.$router.push({ name: 'Login' })
     },
   },
 }
@@ -97,5 +106,11 @@ export default {
     margin-right: 5%;
     width: 15%;
   }
+
+  .logoffSize {
+    position: absolute;
+    left: 65%;
+  }
+
 }
 </style>

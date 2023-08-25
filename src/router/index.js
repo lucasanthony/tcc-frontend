@@ -12,7 +12,7 @@ const isUsuarioAutenticado = () => {
 }
 
 const isPresident = () => {
-    return localStorage.getItem('@role') === 'presidente'
+    return localStorage.getItem('@role') === 'Presidente'
 }
 
 const routes = [
