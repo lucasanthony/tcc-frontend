@@ -94,12 +94,17 @@ export default {
 
   data() {
     return {
+      valid: true,
       dados: [],
       novoMembro: cloneDeep(models.emptyMember),
       isEditar: false,
       isVisualizar: false,
       titleModal: 'Adicionar Membro'
     }
+  },
+
+  setValid(value) {
+    this.valid = value;
   },
 
   computed: {
@@ -134,15 +139,17 @@ export default {
 
     async salvar() {
       try {
-        const res = await this.createMember(this.novoMembro)
-        ElNotification({
-          title: 'Tudo certo!',
-          message: `${res.member.name} foi cadastrado com sucesso`,
-          type: 'success',
-        })
-        this.$store.commit('SET_MODAL', '')
-        await this.getMembros()
-        this.novoMembro = cloneDeep(models.emptyMember)
+        if (this.valid) {
+          const res = await this.createMember(this.novoMembro)
+          ElNotification({
+            title: 'Tudo certo!',
+            message: `${res.member.name} foi cadastrado com sucesso`,
+            type: 'success',
+          })
+          this.$store.commit('SET_MODAL', '')
+          await this.getMembros()
+          this.novoMembro = cloneDeep(models.emptyMember);
+        }
       } catch (error) {}
     },
 

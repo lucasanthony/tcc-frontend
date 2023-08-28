@@ -51,7 +51,7 @@ export default {
         try {
           const res = await this.login(this.dados)
           localStorage.setItem('@jwt', res.dados.token)
-          localStorage.setItem('@role', res.dados.user.role)
+          localStorage.setItem('@role', res.dados.member.role)
           this.$store.commit('SHOW_SIDEBAR', true)
           this.$router.push({ name: 'Member' })
         } catch (error) {
