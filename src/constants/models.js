@@ -1,12 +1,14 @@
 const emptyMember = {
     name: '',
     email: '',
+    password: '',
+    confirmPassword: '',
     phone: '',
     birthDate: '',
     entryDate: '',
     habilities: [],
     department: '',
-    obervations: ''
+    observations: ''
 }
 
 const emptyProject = {

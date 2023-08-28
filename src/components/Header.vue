@@ -1,16 +1,17 @@
 <template lang="pug">
 div.header
-    span.title-header {{ title }}
-    el-button.logoffSize(
+   span.title-header {{ title }}
+   el-button.logoffSize(
       @click="logoff"
-    ) Logoff
-    el-button(
+   ) Logoff
+   el-button(
+      v-if="isLeadership"
       @click="openModal"
-    )
+   )
       span {{ textButton }}
       div
-        el-icon
-          plus
+         el-icon
+         plus
 </template>
 
 <script>
@@ -31,6 +32,11 @@ export default {
     },
     isSettings() {
       return this.$store.state.sidebar.activeOption === 'settings'
+    },
+    isLeadership() {
+      return ["Presidente", "Diretor(a)"].includes(
+        localStorage.getItem("@role")
+      );
     },
 
     title() {
