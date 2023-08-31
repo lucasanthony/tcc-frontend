@@ -115,6 +115,7 @@ export default {
     ...mapActions({
       findAllProjects: 'findAllProjects',
       createProject: 'createProject',
+      updateProject: 'updateProject',
       deleteProject: 'deleteProject'
     }),
 
@@ -143,7 +144,7 @@ export default {
 
     async editar () {
       try {
-        const res = await this.updateProject({ membro: this.novoProjeto, id: this.novoProjeto._id })
+        const res = await this.updateProject({ project: this.novoProjeto, id: this.novoProjeto._id })
         this.isEditar = false
         this.$store.commit('SET_MODAL', '')
         ElNotification({
