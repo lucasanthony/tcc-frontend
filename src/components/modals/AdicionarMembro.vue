@@ -225,6 +225,22 @@ export default {
           id: 4,
           value: 'Conselheiro(a)'
         },
+        {
+          id: 5,
+          value: 'Pós-Júnior'
+        },
+        {
+          id: 6,
+          value: 'Guardiã(o)'
+        },
+        {
+          id: 7,
+          value: 'Trainee'
+        },
+        {
+          id: 8,
+          value: 'Ex-Trainee'
+        },
       ],
     }
   },
