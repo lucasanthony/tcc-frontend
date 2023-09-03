@@ -204,6 +204,9 @@ export default {
     },
 
     handleClose() {
+      this.isVisualizar = false
+      this.isEditar = false
+      this.novoLink = cloneDeep(models.emptyLink)
       this.$store.commit('SET_MODAL', '')
     },
 
