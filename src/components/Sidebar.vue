@@ -7,41 +7,36 @@ div.sidebar
     @click="handleOption('member')"
   )
     el-icon
-      user-filled(
-        :style="isMember ? 'color: white' : 'color: #808080'"
-        :size="20"
-      )
+      user-filled(:style="isMember ? 'color: white' : 'color: #808080'")
     span(v-if="!isMember") Membros
   div.sidebar-button(
     :style="isProject ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('project')"
   )
     el-icon
-      files(
-        :style="isProject ? 'color: white' : 'color: #808080'"
-        :size="20"
-      )
+      files(:style="isProject ? 'color: white' : 'color: #808080'")
     span(v-if="!isProject") Projetos
   div.sidebar-button(
     :style="isLink ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('link')"
   )
     el-icon
-      connection(
-        :style="isLink ? 'color: white' : 'color: #808080'"
-        :size="20"
-      )
+      connection(:style="isLink ? 'color: white' : 'color: #808080'")
     span(v-if="!isLink") Links
-  div.sidebar-button#settings-button(
-    v-if="isPresident"
+  div.sidebar-button(
+    v-if="isLeadership"
     :style="isSettings ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('settings')"
   )
     el-icon
-      setting(
-        :style="isSettings ? 'color: white' : 'color: #808080'"
-        :size="20"
-      )
+      setting(:style="isSettings ? 'color: white' : 'color: #808080'")
+    span(v-if="!isSettings") Configurações
+  div.sidebar-button#logoff-button(
+    @click="logoff"
+  )
+    el-icon
+      SwitchButton#logoff-icon()
+    span() Sair
 </template>
 
 <script>
@@ -68,8 +63,8 @@ export default {
     isSettings () {
       return this.$store.state.sidebar.activeOption === 'settings'
     },
-    isPresident () {
-      return localStorage.getItem("@role") === 'Presidente'
+    isLeadership () {
+      return ['Presidente', 'Diretor(a)'].includes(localStorage.getItem("@role"))
     }
   },
 
@@ -100,7 +95,12 @@ export default {
       const formattedName = info.sub.name.split(' ')
       const text = `<strong>${formattedName[0]} ${formattedName[1] || ''}</strong>, ${info.sub.role} da ${info.sub.ej.name}`
       return text
-    }
+    },
+
+    logoff() {
+      localStorage.clear()
+      this.$router.push({ name: 'Home' })
+    },
   }
 }
 </script>
@@ -126,30 +126,30 @@ export default {
 
   .sidebar-button {
     background: #e6e6e6;
-    height: 16%;
-    width: 80%;
+    height: 12%;
+    width: 65%;
+    font-size: 70%;
     border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
   }
 
   .sidebar-button:hover {
     cursor: pointer;
   }
 
-  #settings-button {
+  #logoff-button {
     bottom: 02%;
     position: absolute;
-    width: 37%;
-    height: 8%;
+    width: 45%;
+    height: 10%;
+    background: #e6e6e6;
   }
 
   .el-icon {
-    width: 100%;
+    width: 35%;
     height: 56%;
 
     svg {
