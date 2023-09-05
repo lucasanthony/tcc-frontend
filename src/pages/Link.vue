@@ -224,7 +224,7 @@ export default {
 
     copyNick (row) {
       let input = document.createElement("input");
-      input.value = `[${row.name}]\n ${row.url}`;
+      input.value = `${row.url}`;
       document.body.appendChild(input);
       input.select();
 
