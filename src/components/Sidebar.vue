@@ -7,21 +7,21 @@ div.sidebar
     @click="handleOption('member')"
   )
     el-icon
-      user-filled()
+      user-filled(:style="isMember ? 'color: white' : 'color: #808080'")
     span(v-if="!isMember") Membros
   div.sidebar-button(
     :style="isProject ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('project')"
   )
     el-icon
-      files()
+      files(:style="isProject ? 'color: white' : 'color: #808080'")
     span(v-if="!isProject") Projetos
   div.sidebar-button(
     :style="isLink ? 'background: #4b53c6' : 'background: #e6e6e6'"
     @click="handleOption('link')"
   )
     el-icon
-      connection()
+      connection(:style="isLink ? 'color: white' : 'color: #808080'")
     span(v-if="!isLink") Links
   div.sidebar-button(
     v-if="isLeadership"
@@ -29,7 +29,7 @@ div.sidebar
     @click="handleOption('settings')"
   )
     el-icon
-      setting()
+      setting(:style="isSettings ? 'color: white' : 'color: #808080'")
     span(v-if="!isSettings") Configurações
   div.sidebar-button#logoff-button(
     @click="logoff"
