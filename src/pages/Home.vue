@@ -40,14 +40,7 @@ export default {
 <style lang="scss" scoped>
 #home {
   background-color: #e6e6e6;
-  // TODO Colocar o gradiente para outros navegadores
-  background-image: -moz-linear-gradient(
-      left top,
-      #282a37 0%,
-      #282a39 45%,
-      rgba(0, 0, 0, 0.65) 100%
-    ),
-    url(../assets/background_home.jpg);
+  background-image: -webkit-linear-gradient(left top,#282a37 0%,#282a39 45%,rgba(0, 0, 0, 0.65) 100%,),url(../assets/background_home.jpg);
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -73,7 +66,7 @@ export default {
       #title,
       #subtitle,
       #buttons {
-        width: -moz-available;
+        width: available;
       }
 
       #buttons {
