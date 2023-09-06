@@ -37,6 +37,7 @@ div
                el-icon
                   View()
             div.actions-button(
+               v-if="isLeadership || isThisMemberLoged(scope.row)"
                @click="handleEditar(scope.$index, scope.row)"
                :style="'background: #409eff'"
             )
@@ -129,6 +130,10 @@ export default {
     async getMembros() {
       const res = await this.findAllMembers()
       this.dados = res.members
+    },
+
+    isThisMemberLoged(member) {
+      return member.loged;
     },
 
     formatDate(row, column, prop) {
