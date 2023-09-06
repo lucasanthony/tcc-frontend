@@ -35,20 +35,20 @@ div
                :style="'background: #67c23a'"
             )
                el-icon
-                  View(:style="'color: white'")
+                  View()
             div.actions-button(
                @click="handleEditar(scope.$index, scope.row)"
                :style="'background: #409eff'"
             )
                el-icon
-                  Edit(:style="'color: white'")
+                  Edit()
             div.actions-button(
                v-if="isLeadership"
                @click="handleExcluir(scope.$index, scope.row)"
                :style="'background: #e07c72'"
             )
                el-icon
-                  DeleteFilled(:style="'color: white'")
+                  DeleteFilled()
   el-dialog(
     fullscreen=true
     center
@@ -128,7 +128,6 @@ export default {
 
     async getMembros() {
       const res = await this.findAllMembers()
-      console.log(res.members);
       this.dados = res.members
     },
 
@@ -256,12 +255,12 @@ export default {
 .el-icon {
    width: 35%;
    height: 30%;
-
+   
    svg {
-   height: 3em;
-   width: 3em;
-   color: #808080;
-   margin: 0;
+      height: 3em;
+      width: 3em;
+      color: white;
+      margin: 0;
    }
 }
 
