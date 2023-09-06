@@ -39,7 +39,7 @@ div
             div.actions-button(
                v-if="isLeadership || isThisMemberLoged(scope.row)"
                @click="handleEditar(scope.$index, scope.row)"
-               :style="'background: #409eff'"
+               :style="'background: #4b53c6'"
             )
                el-icon
                   Edit()

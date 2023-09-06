@@ -33,7 +33,7 @@ div
           div.actions()
             div.actions-button(
                @click="copyNick(scope.row)"
-               :style="'background: #4b53c6'"
+               :style="'background: #409eff'"
             )
                el-icon
                   CopyDocument()
@@ -46,7 +46,7 @@ div
             div.actions-button(
                v-if="isLeadership"
                @click="handleEditar(scope.$index, scope.row)"
-               :style="'background: #409eff'"
+               :style="'background: #4b53c6'"
             )
                el-icon
                   Edit()
