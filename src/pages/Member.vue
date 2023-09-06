@@ -29,24 +29,26 @@ div
         template(
           #default="scope"
         )
-          el-button(
-            @click="handleVisualizar(scope.$index, scope.row)"
-            type="success"
-            size="small"
-          )
-            View
-          el-button(
-            @click="handleEditar(scope.$index, scope.row)"
-            type="primary"
-            size="small"
-          )
-            edit
-          el-button(
-            @click="handleExcluir(scope.$index, scope.row)"
-            type="danger"
-            size="small"
-          )
-            delete
+          div.actions()
+            div.actions-button(
+               @click="handleVisualizar(scope.$index, scope.row)"
+               :style="'background: #67c23a'"
+            )
+               el-icon
+                  View(:style="'color: white'")
+            div.actions-button(
+               @click="handleEditar(scope.$index, scope.row)"
+               :style="'background: #409eff'"
+            )
+               el-icon
+                  Edit(:style="'color: white'")
+            div.actions-button(
+               v-if="isLeadership"
+               @click="handleExcluir(scope.$index, scope.row)"
+               :style="'background: #e07c72'"
+            )
+               el-icon
+                  DeleteFilled(:style="'color: white'")
   el-dialog(
     fullscreen=true
     center
@@ -111,6 +113,9 @@ export default {
     showModal() {
       return this.$store.state.header.modal === 'membro'
     },
+    isLeadership () {
+      return ['Presidente', 'Diretor(a)'].includes(localStorage.getItem("@role"))
+    }
   },
 
   methods: {
@@ -123,6 +128,7 @@ export default {
 
     async getMembros() {
       const res = await this.findAllMembers()
+      console.log(res.members);
       this.dados = res.members
     },
 
@@ -220,5 +226,47 @@ export default {
   margin-left: 2%;
   margin-right: 2%;
   margin-top: 2%;
+}
+
+.actions {
+   display: flex;
+   align-items: center;
+   justify-content: end;
+   flex-direction: row;
+}
+
+.actions-button {
+   width: 45px;
+   height: 40px;
+   background: #e6e6e6;
+   font-size: 70%;
+   border-radius: 20px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   margin: 4px;
+   padding: auto;
+}
+
+.actions-button:hover {
+    cursor: pointer;
+}
+
+.el-icon {
+   width: 35%;
+   height: 30%;
+
+   svg {
+   height: 3em;
+   width: 3em;
+   color: #808080;
+   margin: 0;
+   }
+}
+
+span {
+   color: #808080;
+   margin: 0;
 }
 </style>
