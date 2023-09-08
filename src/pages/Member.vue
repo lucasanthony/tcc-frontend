@@ -59,6 +59,7 @@ div
       :titleModal='titleModal'
       :isVisualizar="isVisualizar"
       :membro="novoMembro"
+      :emailError="emailError"
     )
     template(
       #footer
@@ -99,7 +100,8 @@ export default {
       novoMembro: cloneDeep(models.emptyMember),
       isEditar: false,
       isVisualizar: false,
-      titleModal: 'Adicionar Membro'
+      titleModal: 'Adicionar Membro',
+      emailError: false,
     }
   },
 
@@ -141,6 +143,7 @@ export default {
       try {
         if (this.valid) {
           const res = await this.createMember(this.novoMembro)
+          this.emailError = false;
           ElNotification({
             title: 'Tudo certo!',
             message: `${res.member.name} foi cadastrado com sucesso`,
@@ -150,7 +153,14 @@ export default {
           await this.getMembros()
           this.novoMembro = cloneDeep(models.emptyMember);
         }
-      } catch (error) {}
+      } catch (error) {
+        if (error.response && error.response.status === 500) {
+          this.emailError = true;
+        } else {
+          this.emailError = false;
+          this.errorMessage = 'Ocorreu um erro ao processar a solicitação.';
+        }
+      }
     },
 
     async excluir(index, row) {

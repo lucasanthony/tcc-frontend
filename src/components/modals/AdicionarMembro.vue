@@ -97,6 +97,9 @@ div.modal-content
 		  	v-model="membro.email"
         :disabled="isVisualizar"
 		  )
+      el-text.error-message(
+        v-if="emailError"
+      ) {{ "Este email já está em uso. Tente outro." }}
     el-row
       el-divider(
           content-position="left"
@@ -160,7 +163,8 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    emailError: Boolean,
   },
 
   data() {
@@ -272,5 +276,12 @@ export default {
   color: red;
   margin-top: 5px;
   margin-left: 15px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
+  margin-left: 15px;
+  font-size: 14px;
 }
 </style>
