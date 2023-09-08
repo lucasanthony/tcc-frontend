@@ -177,8 +177,40 @@ export default {
         },
         {
           id: 3,
+          value: 'Mobile',
+        },
+        {
+          id: 4,
+          value: 'Wordpress',
+        },
+        {
+          id: 5,
+          value: 'Assessoria',
+        },
+        {
+          id: 6,
+          value: 'Treinamento',
+        },
+        {
+          id: 7,
           value: 'Comunicação',
         },
+        {
+          id: 8,
+          value: 'Gestão de Projetos',
+        },
+        {
+          id: 9,
+          value: 'Gestão de Pessoas',
+        },
+        {
+          id: 10,
+          value: 'Negociação',
+        },
+        {
+          id: 11,
+          value: 'Documentação',
+        }
       ],
       
       diretorias: [
