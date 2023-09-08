@@ -130,6 +130,7 @@ export default {
     },
   },
 
+  
   data() {
     return {
       dados: [],
