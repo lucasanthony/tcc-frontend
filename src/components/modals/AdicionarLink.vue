@@ -68,12 +68,16 @@ export default {
       tags: [
         {
           id: 1,
-          value: 'importante',
+          value: 'Importante',
         },
         {
           id: 2,
-          value: 'treinamento',
-        }
+          value: 'Treinamento',
+        },
+        {
+          id: 3,
+          value: 'Documentação',
+        },
       ],
       departments: [
         {
