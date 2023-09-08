@@ -136,23 +136,27 @@ export default {
       tags: [
         {
           id: 1,
-          value: 'backend',
+          value: 'Backend',
         },
         {
           id: 2,
-          value: 'frontend',
+          value: 'Frontend',
         },
         {
           id: 3,
-          value: 'wordpress',
+          value: 'Mobile',
         },
         {
           id: 4,
-          value: 'assessoria',
+          value: 'Wordpress',
         },
         {
           id: 5,
-          value: 'treinamento',
+          value: 'Assessoria',
+        },
+        {
+          id: 6,
+          value: 'Treinamento',
         }
       ],
       members: []
