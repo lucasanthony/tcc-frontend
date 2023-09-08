@@ -172,7 +172,13 @@ export default {
           type: 'success',
         })
         await this.getMembros()
-      } catch (error) {}
+      } catch (error) {
+        ElNotification({
+          title: 'Falha ao remover membro!',
+          message: 'A presença de ao menos uma liderança na EJ é obrigatória.',
+          type: 'error',
+        })
+      }
     },
 
     handleExcluir (index, row) {
