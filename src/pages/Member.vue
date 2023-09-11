@@ -131,7 +131,9 @@ export default {
 
     async getMembros() {
       const res = await this.findAllMembers()
-      this.dados = res.members
+      res.status === 404 ?
+         localStorage.clear() || this.$router.push({ name: 'Home' })
+         : this.dados = res.members
     },
 
     isThisMemberLoged(member) {
@@ -182,7 +184,14 @@ export default {
           type: 'success',
         })
         await this.getMembros()
-      } catch (error) {}
+      } catch (error) {
+        ElNotification({
+          title: 'Falha ao remover membro!',
+          message: 'A presença de ao menos uma liderança na EJ é obrigatória.',
+          type: 'error',
+        })
+        await this.getMembros()
+      }
     },
 
     handleExcluir (index, row) {
