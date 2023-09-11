@@ -167,7 +167,6 @@ export default {
 
     async excluir(index, row) {
       try {
-        await this.getMembros()
         await this.deleteMember(row._id)
         ElNotification({
           title: 'Tudo certo!',
@@ -176,7 +175,6 @@ export default {
         })
         await this.getMembros()
       } catch (error) {
-        await this.getMembros()
         ElNotification({
           title: 'Falha ao remover membro!',
           message: 'A presença de ao menos uma liderança na EJ é obrigatória.',
