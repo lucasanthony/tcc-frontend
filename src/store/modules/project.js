@@ -20,7 +20,7 @@ const actions = {
         const result = await axios({
             method: 'PATCH',
             url: `project/${dados.id}`,
-            data: dados.membro
+            data: dados.project
         })
         return result.data
     },

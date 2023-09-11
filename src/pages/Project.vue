@@ -31,24 +31,27 @@ div
         template(
           #default="scope"
         )
-          el-button(
-            @click="handleVisualizar(scope.$index, scope.row)"
-            type="success"
-            size="small"
-          )
-            View
-          el-button(
-            @click="handleEditar(scope.$index, scope.row)"
-            type="primary"
-            size="small"
-          )
-            edit
-          el-button(
-            @click="handleExcluir(scope.$index, scope.row)"
-            type="danger"
-            size="small"
-          )
-            delete
+          div.actions()
+            div.actions-button(
+               @click="handleVisualizar(scope.$index, scope.row)"
+               :style="'background: #67c23a'"
+            )
+               el-icon
+                  View()
+            div.actions-button(
+               v-if="isLeadership"
+               @click="handleEditar(scope.$index, scope.row)"
+               :style="'background: #4b53c6'"
+            )
+               el-icon
+                  Edit()
+            div.actions-button(
+               v-if="isLeadership"
+               @click="handleExcluir(scope.$index, scope.row)"
+               :style="'background: #e07c72'"
+            )
+               el-icon
+                  DeleteFilled()
   el-dialog(
     center
     :before-close="handleClose"
@@ -109,17 +112,29 @@ export default {
     showModal() {
       return this.$store.state.header.modal === 'projeto'
     },
+    isLeadership () {
+      return ['Presidente', 'Diretor(a)'].includes(localStorage.getItem("@role"))
+    }
   },
 
   methods: {
     ...mapActions({
       findAllProjects: 'findAllProjects',
       createProject: 'createProject',
+      updateProject: 'updateProject',
       deleteProject: 'deleteProject'
     }),
 
     formatDate(row, column, prop) {
       return Utils.formatDate(prop)
+    },
+
+    async closeModal() {
+      this.isVisualizar = false
+      this.isEditar = false
+      this.novoProjeto = cloneDeep(models.emptyProject)
+      await this.getProjetos()
+      this.$store.commit('SET_MODAL', '')
     },
 
     async getProjetos() {
@@ -143,7 +158,7 @@ export default {
 
     async editar () {
       try {
-        const res = await this.updateProject({ membro: this.novoProjeto, id: this.novoProjeto._id })
+        const res = await this.updateProject({ project: this.novoProjeto, id: this.novoProjeto._id })
         this.isEditar = false
         this.$store.commit('SET_MODAL', '')
         ElNotification({
@@ -159,6 +174,7 @@ export default {
     handleEditar (index, row) {
       this.isVisualizar = false
       this.isEditar = true
+      row.team = this.configTeamForElOption(row);
       this.novoProjeto = row
       this.titleModal = 'Editar projeto'
       this.$store.commit('SET_MODAL', 'projeto')
@@ -166,9 +182,14 @@ export default {
 
     handleVisualizar (index, row) {
       this.isVisualizar = true
+      row.team = this.configTeamForElOption(row);
       this.novoProjeto = row
       this.titleModal = row.name
       this.$store.commit('SET_MODAL', 'projeto')
+    },
+
+    configTeamForElOption(row) {
+      return row.team[0] && row.team[0].name ? row.team.map((member) => member._id) : row.team;
     },
 
     async excluir(index, row) {
@@ -221,5 +242,47 @@ export default {
   margin-left: 2%;
   margin-right: 2%;
   margin-top: 2%
+}
+
+.actions {
+   display: flex;
+   align-items: center;
+   justify-content: end;
+   flex-direction: row;
+}
+
+.actions-button {
+   width: 45px;
+   height: 40px;
+   background: #e6e6e6;
+   font-size: 70%;
+   border-radius: 20px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   margin: 4px;
+   padding: auto;
+}
+
+.actions-button:hover {
+    cursor: pointer;
+}
+
+.el-icon {
+   width: 35%;
+   height: 30%;
+   
+   svg {
+      height: 3em;
+      width: 3em;
+      color: white;
+      margin: 0;
+   }
+}
+
+span {
+   color: #808080;
+   margin: 0;
 }
 </style>

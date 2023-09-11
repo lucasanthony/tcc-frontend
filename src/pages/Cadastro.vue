@@ -66,8 +66,18 @@ export default {
     }),
 
     async save() {
+      ElNotification({
+          title: 'Em andamento',
+          message: 'A Empresa Júnior está sendo cadastrada',
+          type: 'info',
+      })
       try {
         await this.createEj(this.cadastroData)
+        ElNotification({
+          title: 'Sucesso',
+          message: 'A Empresa Júnior foi cadastrada com sucesso!',
+          type: 'success',
+        })
         this.$router.push({ name: 'Login' })
       } catch (error) {
         ElNotification({

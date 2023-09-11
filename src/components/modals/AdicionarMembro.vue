@@ -97,6 +97,9 @@ div.modal-content
 		  	v-model="membro.email"
         :disabled="isVisualizar"
 		  )
+      el-text.error-message(
+        v-if="emailError"
+      ) {{ "Este email já está em uso. Tente outro." }}
     el-row
       el-divider(
           content-position="left"
@@ -160,7 +163,8 @@ export default {
       type: Boolean,
       required: false,
       default: false
-    }
+    },
+    emailError: Boolean,
   },
 
   data() {
@@ -177,8 +181,40 @@ export default {
         },
         {
           id: 3,
+          value: 'Mobile',
+        },
+        {
+          id: 4,
+          value: 'Wordpress',
+        },
+        {
+          id: 5,
+          value: 'Assessoria',
+        },
+        {
+          id: 6,
+          value: 'Treinamento',
+        },
+        {
+          id: 7,
           value: 'Comunicação',
         },
+        {
+          id: 8,
+          value: 'Gestão de Projetos',
+        },
+        {
+          id: 9,
+          value: 'Gestão de Pessoas',
+        },
+        {
+          id: 10,
+          value: 'Negociação',
+        },
+        {
+          id: 11,
+          value: 'Documentação',
+        }
       ],
       
       diretorias: [
@@ -224,6 +260,22 @@ export default {
         {
           id: 4,
           value: 'Conselheiro(a)'
+        },
+        {
+          id: 5,
+          value: 'Pós-Júnior'
+        },
+        {
+          id: 6,
+          value: 'Guardiã(o)'
+        },
+        {
+          id: 7,
+          value: 'Trainee'
+        },
+        {
+          id: 8,
+          value: 'Ex-Trainee'
         },
       ],
     }
@@ -272,5 +324,12 @@ export default {
   color: red;
   margin-top: 5px;
   margin-left: 15px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 5px;
+  margin-left: 15px;
+  font-size: 14px;
 }
 </style>

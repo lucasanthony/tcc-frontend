@@ -68,22 +68,42 @@ export default {
       tags: [
         {
           id: 1,
-          value: 'importante',
+          value: 'Importante',
         },
         {
           id: 2,
-          value: 'treinamento',
-        }
+          value: 'Treinamento',
+        },
+        {
+          id: 3,
+          value: 'Documentação',
+        },
       ],
       departments: [
         {
         id: 1,
-        value: 'qualidade'
+        value: 'Presidência'
         },
         {
         id: 2,
-        value: 'projetos'
-      }
+        value: 'Gente & Gestão'
+        },
+        {
+        id: 3,
+        value: 'Projetos'
+        },
+        {
+        id: 4,
+        value: 'Qualidade'
+        },
+        {
+        id: 5,
+        value: 'Marketing'
+        },
+        {
+        id: 6,
+        value: 'Negócios'
+        }
       ],
     }
   },

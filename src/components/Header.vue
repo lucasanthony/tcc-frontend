@@ -1,9 +1,6 @@
 <template lang="pug">
 div.header
    span.title-header {{ title }}
-   el-button.logoffSize(
-      @click="logoff"
-   ) Logoff
    el-button(
       v-if="isLeadership"
       @click="openModal"
@@ -76,12 +73,7 @@ export default {
       } else if (this.isSettings) {
         this.$store.commit('SET_MODAL', 'settings')
       }
-    },
-
-    logoff() {
-      localStorage.clear()
-      this.$router.push({ name: 'Login' })
-    },
+    }
   },
 }
 </script>

@@ -29,24 +29,27 @@ div
         template(
           #default="scope"
         )
-          el-button(
-            @click="handleVisualizar(scope.$index, scope.row)"
-            type="success"
-            size="small"
-          )
-            View
-          el-button(
-            @click="handleEditar(scope.$index, scope.row)"
-            type="primary"
-            size="small"
-          )
-            edit
-          el-button(
-            @click="handleExcluir(scope.$index, scope.row)"
-            type="danger"
-            size="small"
-          )
-            delete
+          div.actions()
+            div.actions-button(
+               @click="handleVisualizar(scope.$index, scope.row)"
+               :style="'background: #67c23a'"
+            )
+               el-icon
+                  View()
+            div.actions-button(
+               v-if="isLeadership || isThisMemberLoged(scope.row)"
+               @click="handleEditar(scope.$index, scope.row)"
+               :style="'background: #4b53c6'"
+            )
+               el-icon
+                  Edit()
+            div.actions-button(
+               v-if="isLeadership"
+               @click="handleExcluir(scope.$index, scope.row)"
+               :style="'background: #e07c72'"
+            )
+               el-icon
+                  DeleteFilled()
   el-dialog(
     fullscreen=true
     center
@@ -59,6 +62,7 @@ div
       :titleModal='titleModal'
       :isVisualizar="isVisualizar"
       :membro="novoMembro"
+      :emailError="emailError"
     )
     template(
       #footer
@@ -99,7 +103,8 @@ export default {
       novoMembro: cloneDeep(models.emptyMember),
       isEditar: false,
       isVisualizar: false,
-      titleModal: 'Adicionar Membro'
+      titleModal: 'Adicionar Membro',
+      emailError: false,
     }
   },
 
@@ -111,6 +116,9 @@ export default {
     showModal() {
       return this.$store.state.header.modal === 'membro'
     },
+    isLeadership () {
+      return ['Presidente', 'Diretor(a)'].includes(localStorage.getItem("@role"))
+    }
   },
 
   methods: {
@@ -123,7 +131,13 @@ export default {
 
     async getMembros() {
       const res = await this.findAllMembers()
-      this.dados = res.members
+      res.status === 404 ?
+         localStorage.clear() || this.$router.push({ name: 'Home' })
+         : this.dados = res.members
+    },
+
+    isThisMemberLoged(member) {
+      return member.loged;
     },
 
     formatDate(row, column, prop) {
@@ -141,6 +155,7 @@ export default {
       try {
         if (this.valid) {
           const res = await this.createMember(this.novoMembro)
+          this.emailError = false;
           ElNotification({
             title: 'Tudo certo!',
             message: `${res.member.name} foi cadastrado com sucesso`,
@@ -150,7 +165,14 @@ export default {
           await this.getMembros()
           this.novoMembro = cloneDeep(models.emptyMember);
         }
-      } catch (error) {}
+      } catch (error) {
+        if (error.response && error.response.status === 500) {
+          this.emailError = true;
+        } else {
+          this.emailError = false;
+          this.errorMessage = 'Ocorreu um erro ao processar a solicitação.';
+        }
+      }
     },
 
     async excluir(index, row) {
@@ -162,7 +184,14 @@ export default {
           type: 'success',
         })
         await this.getMembros()
-      } catch (error) {}
+      } catch (error) {
+        ElNotification({
+          title: 'Falha ao remover membro!',
+          message: 'A presença de ao menos uma liderança na EJ é obrigatória.',
+          type: 'error',
+        })
+        await this.getMembros()
+      }
     },
 
     handleExcluir (index, row) {
@@ -220,5 +249,47 @@ export default {
   margin-left: 2%;
   margin-right: 2%;
   margin-top: 2%;
+}
+
+.actions {
+   display: flex;
+   align-items: center;
+   justify-content: end;
+   flex-direction: row;
+}
+
+.actions-button {
+   width: 45px;
+   height: 40px;
+   background: #e6e6e6;
+   font-size: 70%;
+   border-radius: 20px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   margin: 4px;
+   padding: auto;
+}
+
+.actions-button:hover {
+    cursor: pointer;
+}
+
+.el-icon {
+   width: 35%;
+   height: 30%;
+   
+   svg {
+      height: 3em;
+      width: 3em;
+      color: white;
+      margin: 0;
+   }
+}
+
+span {
+   color: #808080;
+   margin: 0;
 }
 </style>
