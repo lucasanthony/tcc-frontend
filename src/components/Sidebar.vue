@@ -91,10 +91,13 @@ export default {
     },
 
     async getUserInfo () {
-      const info = await this.userInfo()
-      const formattedName = info.sub.name.split(' ')
-      const text = `<strong>${formattedName[0]} ${formattedName[1] || ''}</strong>, ${info.sub.role} da ${info.sub.ej.name}`
-      return text
+      const info = await this.userInfo();
+
+      if (!info)
+         return '';
+
+      const formattedName = info.sub.name.split(' ');
+      return `<strong>${formattedName[0]} ${formattedName[1] || ''}</strong>, ${info.sub.role} da ${info.sub.ej.name}`;
     },
 
     logoff() {
