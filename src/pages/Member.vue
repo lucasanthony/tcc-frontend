@@ -129,7 +129,9 @@ export default {
 
     async getMembros() {
       const res = await this.findAllMembers()
-      this.dados = res.members
+      res.status === 404 ?
+         localStorage.clear() || this.$router.push({ name: 'Home' })
+         : this.dados = res.members
     },
 
     isThisMemberLoged(member) {
