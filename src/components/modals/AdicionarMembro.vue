@@ -96,10 +96,11 @@ div.modal-content
 		  	placeholder="Email"
 		  	v-model="membro.email"
         :disabled="isVisualizar"
+        @blur="validateEmail"
 		  )
-      el-text.error-message(
-        v-if="emailError"
-      ) {{ "Este email já está em uso. Tente outro." }}
+      el-text.error-email(
+        v-if="errorEmailInUse || errorInvalidEmail"
+      ) {{ errorEmailInUse || errorInvalidEmail }}
     el-row
       el-divider(
           content-position="left"
@@ -164,12 +165,14 @@ export default {
       required: false,
       default: false
     },
-    emailError: Boolean,
+    errorInvalidEmail: String,
+    errorEmailInUse: String,
   },
 
   data() {
     return {
       dados: [],
+      errorInvalidEmail: "",
       habilidades: [
         {
           id: 1,
@@ -294,9 +297,22 @@ export default {
           this.errorMessage = '';
           this.$emit("setValid", true);
         }
-      }
     },
-  }
+    validateEmail() {     
+      if (!this.membro.email) {
+        this.errorInvalidEmail = 'O campo de email não pode estar vazio.';
+      } else {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regex.test(this.membro.email)) {
+          this.errorInvalidEmail = 'Formato de email inválido.';
+        }
+      }
+      setTimeout(() => {
+        this.errorInvalidEmail = "";
+      }, 3000);
+    }
+  },
+}
 
 </script>
 
@@ -326,7 +342,7 @@ export default {
   margin-left: 15px;
 }
 
-.error-message {
+.error-email {
   color: red;
   margin-top: 5px;
   margin-left: 15px;
