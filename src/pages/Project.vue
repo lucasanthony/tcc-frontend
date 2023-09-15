@@ -33,6 +33,19 @@ div
         )
           div.actions()
             div.actions-button(
+              v-if="isLeadership"
+              @click=""
+              :style="'background: #A8CDE8'"
+            )
+               el-icon
+                  Plus()
+            div.actions-button(
+              @click=""
+              :style="'background: #E8A8CE'"
+            )
+                el-icon
+                  View()
+            div.actions-button(
                @click="handleVisualizar(scope.$index, scope.row)"
                :style="'background: #67c23a'"
             )
@@ -253,7 +266,7 @@ export default {
 
 .actions-button {
    width: 45px;
-   height: 40px;
+   height: 35px;
    background: #e6e6e6;
    font-size: 70%;
    border-radius: 20px;
