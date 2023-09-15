@@ -33,7 +33,7 @@ div
         )
           div.actions()
             div.actions-button(
-              v-if="isLeadership"
+              v-if="isLeadership || onTeam(scope.row)"
               @click=""
               :style="'background: #A8CDE8'"
             )
@@ -135,8 +135,14 @@ export default {
       findAllProjects: 'findAllProjects',
       createProject: 'createProject',
       updateProject: 'updateProject',
-      deleteProject: 'deleteProject'
+      deleteProject: 'deleteProject',
+      userInfo: 'userInfo'
     }),
+
+    async onTeam(row) {
+      const info = await this.userInfo();
+      return row.team.includes(info.sub._id);
+    },
 
     formatDate(row, column, prop) {
       return Utils.formatDate(prop)
