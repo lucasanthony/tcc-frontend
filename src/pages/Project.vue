@@ -8,6 +8,7 @@ div
       el-table-column(
         prop="name",
         label="Nome",
+        :width="150"
       )
       el-table-column(
         prop="description",
@@ -23,6 +24,7 @@ div
         prop="startDate",
         label="Data de início",
         :formatter="formatDate"
+        :width="150"
       )
       el-table-column(
         label="Ações"
@@ -32,6 +34,19 @@ div
           #default="scope"
         )
           div.actions()
+            div.actions-button(
+              v-if="isLeadership || onTeam(scope.row)"
+              @click=""
+              :style="'background: #A8CDE8'"
+            )
+               el-icon
+                  Plus()
+            div.actions-button(
+              @click=""
+              :style="'background: #E8A8CE'"
+            )
+                el-icon
+                  View()
             div.actions-button(
                @click="handleVisualizar(scope.$index, scope.row)"
                :style="'background: #67c23a'"
@@ -95,6 +110,7 @@ export default {
   },
 
   async mounted() {
+    this.userInfo = await this.getUserInfo();
     this.$store.commit('SET_SIDEBAR_OPTION', this.$route.name.toLowerCase())
     const res = await this.findAllProjects()
     this.dados= res.projects
@@ -106,7 +122,8 @@ export default {
       novoProjeto: cloneDeep(models.emptyProject),
       titleModal: 'Adicionar Projeto',
       isEditar: false,
-      isVisualizar: false
+      isVisualizar: false,
+      userInfo: {}
     }
   },
 
@@ -124,8 +141,13 @@ export default {
       findAllProjects: 'findAllProjects',
       createProject: 'createProject',
       updateProject: 'updateProject',
-      deleteProject: 'deleteProject'
+      deleteProject: 'deleteProject',
+      getUserInfo: 'userInfo'
     }),
+
+    onTeam(row) {
+      return this.getTeamMembersId(row).includes(this.userInfo.sub._id);
+    },
 
     formatDate(row, column, prop) {
       return Utils.formatDate(prop)
@@ -176,7 +198,7 @@ export default {
     handleEditar (index, row) {
       this.isVisualizar = false
       this.isEditar = true
-      row.team = this.configTeamForElOption(row);
+      row.team = this.getTeamMembersId(row);
       this.novoProjeto = row
       this.titleModal = 'Editar projeto'
       this.$store.commit('SET_MODAL', 'projeto')
@@ -184,13 +206,13 @@ export default {
 
     handleVisualizar (index, row) {
       this.isVisualizar = true
-      row.team = this.configTeamForElOption(row);
+      row.team = this.getTeamMembersId(row);
       this.novoProjeto = row
       this.titleModal = row.name
       this.$store.commit('SET_MODAL', 'projeto')
     },
 
-    configTeamForElOption(row) {
+    getTeamMembersId(row) {
       return row.team[0] && row.team[0].name ? row.team.map((member) => member._id) : row.team;
     },
 
@@ -255,7 +277,7 @@ export default {
 
 .actions-button {
    width: 45px;
-   height: 40px;
+   height: 35px;
    background: #e6e6e6;
    font-size: 70%;
    border-radius: 20px;
@@ -276,8 +298,8 @@ export default {
    height: 30%;
    
    svg {
-      height: 3em;
-      width: 3em;
+      height: 5em;
+      width: 5em;
       color: white;
       margin: 0;
    }
