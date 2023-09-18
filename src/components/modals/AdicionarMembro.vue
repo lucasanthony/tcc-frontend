@@ -298,18 +298,17 @@ export default {
           this.$emit("setValid", true);
         }
     },
-    validateEmail() {     
+   validateEmail() {     
       if (!this.membro.email) {
         this.errorInvalidEmail = 'O campo de email não pode estar vazio.';
       } else {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!regex.test(this.membro.email)) {
-          this.errorInvalidEmail = 'Formato de email inválido.';
+           this.errorInvalidEmail = 'Formato de email inválido.';
+        } else {
+          this.errorInvalidEmail = '';
         }
       }
-      setTimeout(() => {
-        this.errorInvalidEmail = "";
-      }, 3000);
     }
   },
 }
