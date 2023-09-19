@@ -45,7 +45,7 @@ const emptyUser = {
 
 const emptyNews = {
     description: '',
-    images: [],
+    image: '',
     updateLink: ''
 }
 

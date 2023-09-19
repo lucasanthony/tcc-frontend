@@ -36,7 +36,7 @@ div
           div.actions()
             div.actions-button(
               v-if="isLeadership || onTeam(scope.row)"
-              @click=""
+              @click="handleAdicionar(scope.$index)"
               :style="'background: #A8CDE8'"
             )
                el-icon
@@ -90,6 +90,29 @@ div
           type="primary"
           color="#4b53c6"
         ) Salvar
+
+  el-dialog(
+    center
+    :before-close="handleClose"
+    :title="titleModal"
+    @close="closeModal"
+    v-model="showModalNews"
+  )
+    adicionar-atualizacao(
+      :titleModal='titleModal'
+      :isVisualizar="isVisualizar"
+      :atualizacao="novaAtualizacao"
+    )
+    template(
+      #footer
+    )
+      span.dialog-footer
+        el-button(
+          v-if="!isVisualizar"
+          @click="isEditar ? editarNews() : salvarNews()"
+          type="primary"
+          color="#4b53c6"
+        ) Salvar
 </template>
 
 <script>
@@ -120,6 +143,7 @@ export default {
     return {
       dados: [],
       novoProjeto: cloneDeep(models.emptyProject),
+      novaAtualizacao: cloneDeep(models.emptyNews),
       titleModal: 'Adicionar Projeto',
       isEditar: false,
       isVisualizar: false,
@@ -130,6 +154,9 @@ export default {
   computed: {
     showModal() {
       return this.$store.state.header.modal === 'projeto'
+    },
+    showModalNews() {
+      return this.$store.state.header.modal === "atualizacao"
     },
     isLeadership () {
       return ['Presidente', 'Diretor(a)'].includes(localStorage.getItem("@role"))
@@ -142,6 +169,10 @@ export default {
       createProject: 'createProject',
       updateProject: 'updateProject',
       deleteProject: 'deleteProject',
+      findAllNews: 'findAllNews',
+      createNews: 'createNews',
+      updateNews: 'updateNews',
+      deleteNews: 'deleteNews',
       getUserInfo: 'userInfo'
     }),
 
@@ -164,6 +195,19 @@ export default {
     async getProjetos() {
       const res = await this.findAllProjects()
       this.dados = res.projects
+    },
+
+    async salvarNews() {
+      try {
+          await this.createNews(this.novaAtualizacao)
+          ElNotification({
+            title: 'Tudo certo!',
+            message: `Atualização criada com sucesso!`,
+            type: 'success',
+          })
+          this.$store.commit('SET_MODAL', '')
+          this.novaAtualizacao = cloneDeep(models.emptyNews)
+        } catch (error) {}
     },
 
     async salvar() {
@@ -193,6 +237,11 @@ export default {
         await this.getProjetos()
         this.novoProjeto = cloneDeep(models.emptyProject)
       } catch (error) {}
+    },
+
+    handleAdicionar(index) {
+      this.titleModal = 'Adicionar atualização'
+      this.$store.commit('SET_MODAL', 'atualizacao')
     },
 
     handleEditar (index, row) {
