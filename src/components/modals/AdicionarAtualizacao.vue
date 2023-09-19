@@ -15,14 +15,14 @@ div.modal-content
         ) URL
         el-input(
             placeholder="URl"
-            v-model="news.url"
+            v-model="news.updateLink"
             :disabled="isVisualizar"
         )
         el-divider(
             content-position="left"
         ) Imagem
         el-input(
-            v-model="news.image"
+            v-model="news.images"
             type="file"
             accept="image/*"
             @change="onImageSelected"
