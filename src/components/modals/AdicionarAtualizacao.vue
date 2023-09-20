@@ -5,7 +5,7 @@ div.modal-content
             content-position="left"
         ) Descrição
         el-input(
-            v-model="news.description"
+            v-model="atualizacao.description"
             type="textarea"
             placeholder="Descrição"
             :disabled="isVisualizar"
@@ -15,15 +15,15 @@ div.modal-content
         ) URL
         el-input(
             placeholder="URl"
-            v-model="news.updateLink"
+            v-model="atualizacao.updateLink"
             :disabled="isVisualizar"
         )
         el-divider(
             content-position="left"
         ) Imagem
-        el-input(
-            v-model="news.images"
+        input(
             type="file"
+            ref="imageInput"
             accept="image/*"
             @change="onImageSelected"
             :disabled="isVisualizar"
@@ -37,7 +37,7 @@ export default {
     name: 'AdicionarAtualizacao',
 
     props: {
-        news: {
+        atualizacao: {
             type: Object,
             required: true
         },
@@ -50,7 +50,7 @@ export default {
 
     data() {
         return {
-            dados:[]
+            dados:[],
         }
     },
 
@@ -59,8 +59,17 @@ export default {
             findById: 'findById'
         }),
 
-        onImageSelected(event) {
-            console.log(event);
+        onImageSelected(e) {
+            this.atualizacao.image = e.target.files[0]
+            this.convertImageToBuffer();
+        },
+
+        async convertImageToBuffer() {
+            if(!this.atualizacao.image) {
+                return;
+            }
+            
+            this.atualizacao.image = new Uint8Array(await this.atualizacao.image.arrayBuffer());
         }
     }
 }
