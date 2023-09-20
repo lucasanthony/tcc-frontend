@@ -170,10 +170,6 @@ export default {
         } else {
           this.errorMessage = 'Ocorreu um erro ao processar a solicitação.';
         }
-      } finally {
-        setTimeout(() => {
-          this.errorEmailInUse = "";
-        }, 3000);
       }
     },
 
