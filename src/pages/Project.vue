@@ -199,7 +199,7 @@ export default {
 
     async salvarNews() {
       try {
-          await this.createNews(this.novaAtualizacao)
+        await this.createNews(this.novaAtualizacao, this.novoProjeto._id)
           ElNotification({
             title: 'Tudo certo!',
             message: `Atualização criada com sucesso!`,
