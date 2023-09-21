@@ -36,7 +36,7 @@ div
           div.actions()
             div.actions-button(
               v-if="isLeadership || onTeam(scope.row)"
-              @click="handleAdicionar(scope.$index)"
+              @click="handleAdicionar(scope.$index, scope.row)"
               :style="'background: #A8CDE8'"
             )
                el-icon
@@ -206,6 +206,7 @@ export default {
             type: 'success',
           })
           this.$store.commit('SET_MODAL', '')
+          this.novoProjeto = cloneDeep(models.emptyProject)
           this.novaAtualizacao = cloneDeep(models.emptyNews)
         } catch (error) {}
     },
@@ -239,7 +240,8 @@ export default {
       } catch (error) {}
     },
 
-    handleAdicionar(index) {
+    handleAdicionar(index, row) {
+      this.novoProjeto = row;
       this.titleModal = 'Adicionar atualização'
       this.$store.commit('SET_MODAL', 'atualizacao')
     },
