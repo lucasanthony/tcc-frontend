@@ -19,7 +19,7 @@ const actions = {
     async updateNews({ commit }, dados) {
         const result = await axios({
             method: 'PATCH',
-            url: `news/${dados.id}`,
+            url: `news/${dados.id_project}`,
             data: dados.news
         })
         return result.data
