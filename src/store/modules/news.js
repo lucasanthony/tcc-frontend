@@ -8,11 +8,11 @@ const actions = {
         })
         return result.data
     },
-    async createNews({ commit }, news, id_project) {
+    async createNews({ commit }, dados) {
         const result = await axios({
             method: 'POST',
-            url: `news/${id_project}`,
-            data: news
+            url: `news/${dados.projectId}`,
+            data: dados.news
         })
         return result.data
     },
