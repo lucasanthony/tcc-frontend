@@ -36,33 +36,33 @@ div
                div.actions()
                   div.actions-button(
                      v-if="isLeadership || onTeam(scope.row)"
-                     @click="handleAdicionar(scope.$index, scope.row)"
+                     @click="handleAddNews(scope.$index, scope.row)"
                      :style="'background: #A8CDE8'"
                   )
                      el-icon
                         Plus()
                   div.actions-button(
-                     @click=""
+                     @click="handleViewNews(scope.$index, scope.row)"
                      :style="'background: #E8A8CE'"
                   )
                      el-icon
                         View()
                   div.actions-button(
-                     @click="handleVisualizar(scope.$index, scope.row)"
+                     @click="handleViewProject(scope.$index, scope.row)"
                      :style="'background: #67c23a'"
                   )
                      el-icon
                         View()
                   div.actions-button(
                      v-if="isLeadership"
-                     @click="handleEditar(scope.$index, scope.row)"
+                     @click="handleEditProject(scope.$index, scope.row)"
                      :style="'background: #4b53c6'"
                   )
                      el-icon
                         Edit()
                   div.actions-button(
                      v-if="isLeadership"
-                     @click="handleExcluir(scope.$index, scope.row)"
+                     @click="handleDeleteProject(scope.$index, scope.row)"
                      :style="'background: #e07c72'"
                   )
                      el-icon
@@ -96,7 +96,7 @@ div
       :before-close="handleClose"
       :title="titleModal"
       @close="closeModal"
-      v-model="showModalNews"
+      v-model="showModalAddNews"
    )
       adicionar-atualizacao(
          :titleModal='titleModal'
@@ -109,7 +109,7 @@ div
          span.dialog-footer
             el-button(
                v-if="!isVisualizar"
-               @click="isEditar ? editarNews() : salvarNews()"
+               @click="saveNews()"
                type="primary"
                color="#4b53c6"
             ) Salvar
@@ -133,6 +133,7 @@ export default {
    },
 
    async mounted() {
+      this.$store.commit('SHOW_SIDEBAR', true);
       this.userInfo = await this.getUserInfo();
       this.$store.commit('SET_SIDEBAR_OPTION', this.$route.name.toLowerCase())
       const res = await this.findAllProjects()
@@ -155,8 +156,8 @@ export default {
       showModal() {
          return this.$store.state.header.modal === 'projeto'
       },
-      showModalNews() {
-         return this.$store.state.header.modal === "atualizacao"
+      showModalAddNews() {
+         return this.$store.state.header.modal === "add_news"
       },
       isLeadership() {
          return ['Presidente', 'Diretor(a)'].includes(localStorage.getItem("@role"))
@@ -170,6 +171,7 @@ export default {
          updateProject: 'updateProject',
          deleteProject: 'deleteProject',
          findAllNews: 'findAllNews',
+         getNewsByProject: 'getNewsByProject',
          createNews: 'createNews',
          updateNews: 'updateNews',
          deleteNews: 'deleteNews',
@@ -197,7 +199,7 @@ export default {
          this.dados = res.projects
       },
 
-      async salvarNews() {
+      async saveNews() {
          try {
             await this.createNews({ news: this.novaAtualizacao, projectId: this.novoProjeto._id })
             ElNotification({
@@ -240,13 +242,20 @@ export default {
          } catch (error) { }
       },
 
-      handleAdicionar(index, row) {
+      handleAddNews(index, row) {
          this.novoProjeto = row;
          this.titleModal = 'Adicionar atualização'
-         this.$store.commit('SET_MODAL', 'atualizacao')
+         this.$store.commit('SET_MODAL', 'add_news')
       },
 
-      handleEditar(index, row) {
+      async handleViewNews(index, row) {
+         this.$router.push({
+            name: 'ViewNews',
+            params: { projectId: JSON.stringify(row._id) }
+         });
+      },
+
+      handleEditProject(index, row) {
          this.isVisualizar = false
          this.isEditar = true
          row.team = this.getTeamMembersId(row);
@@ -255,7 +264,7 @@ export default {
          this.$store.commit('SET_MODAL', 'projeto')
       },
 
-      handleVisualizar(index, row) {
+      handleViewProject(index, row) {
          this.isVisualizar = true
          row.team = this.getTeamMembersId(row);
          this.novoProjeto = row
@@ -279,7 +288,7 @@ export default {
          } catch (error) { }
       },
 
-      handleExcluir(index, row) {
+      handleDeleteProject(index, row) {
          ElMessageBox.confirm(
             `Excluir projeto ${row.name} do sistema?`,
             'Atenção',
