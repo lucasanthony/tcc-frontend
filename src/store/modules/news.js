@@ -61,8 +61,8 @@ const actions = {
       try {
          const result = await axios({
             method: 'PATCH',
-            url: `news/${dados._id}`,
-            data: { news: dados }
+            url: `news`,
+            data: { news: dados, newsId: dados._id }
          });
          return result.data;
        } catch (err) {
