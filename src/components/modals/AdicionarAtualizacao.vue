@@ -8,7 +8,6 @@ div.modal-content
          v-model="atualizacao.description"
          type="textarea"
          placeholder="Descrição"
-         :disabled="isVisualizar"
       )
       el-divider(
          content-position="left"
@@ -16,7 +15,6 @@ div.modal-content
       el-input(
          placeholder="URL"
          v-model="atualizacao.updateLink"
-         :disabled="isVisualizar"
       )
       // el-divider(
       //    content-position="left"
@@ -40,11 +38,6 @@ export default {
       atualizacao: {
          type: Object,
          required: true
-      },
-      isVisualizar: {
-         type: Boolean,
-         required: false,
-         default: false
       }
    },
 
