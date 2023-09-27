@@ -47,14 +47,14 @@ div.page
                         el-icon
                            Download()
                      div.actions-button(
-                        v-if="isLeadership || isNewsOwner"
+                        v-if="isLeadership || isNewsOwner(scope.row)"
                         @click="handleEditNews(scope.$index, scope.row)"
                         :style="'background: #4B53C6'"
                      )
                         el-icon
                            Edit()
                      div.actions-button(
-                        v-if="isLeadership || isNewsOwner"
+                        v-if="isLeadership || isNewsOwner(scope.row)"
                         @click="handleDeleteNews(scope.$index, scope.row)"
                         :style="'background: #F89898'"
                      )
@@ -145,10 +145,6 @@ export default {
       isLeadership() {
          return ['Presidente', 'Diretor(a)'].includes(localStorage.getItem("@role"))
       },
-      isNewsOwner() {
-         // Is News Owner
-         return false;
-      },
       showModalAddNews() {
          return this.$store.state.header.modal === 'add_news'
       },
@@ -161,6 +157,10 @@ export default {
          updateNews: 'updateNews',
          deleteNews: 'deleteNews',
       }),
+
+      isNewsOwner(row) {
+         return this.userInfo.sub._id === row.member._id;
+      },
 
       async getNews() {
          const query = this.$route.params;
