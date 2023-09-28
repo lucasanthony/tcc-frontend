@@ -180,6 +180,17 @@ export default {
          return Utils.formatDate(prop)
       },
 
+      formatList(row, column, prop) {
+         let listFormated = '';
+         prop.forEach((item, index) => {
+            if (index !== prop.length - 1)
+               listFormated += item.name + ', ';
+            else
+               listFormated += item.name;
+         });
+         return listFormated;
+      },
+
       async closeModal() {
          this.isVisualizar = false
          this.isEditar = false
@@ -188,23 +199,34 @@ export default {
          this.$store.commit('SET_MODAL', '')
       },
 
+      handleClose() {
+         this.$store.commit('SET_MODAL', '')
+      },
+
+      getTeamMembersId(row) {
+         return row.team[0] && row.team[0].name ? row.team.map((member) => member._id) : row.team;
+      },
+
       async getProjetos() {
          const res = await this.findAllProjects()
          this.dados = res.projects
       },
 
-      async saveNews() {
-         try {
-            await this.createNews({ news: this.newsToBeCreated, projectId: this.novoProjeto._id })
-            ElNotification({
-               title: 'Tudo certo!',
-               message: `Atualização criada com sucesso!`,
-               type: 'success',
-            });
-            this.$store.commit('SET_MODAL', '');
-            this.novoProjeto = cloneDeep(models.emptyProject);
-            this.newsToBeCreated = cloneDeep(models.emptyNews);
-         } catch (error) { }
+      handleViewProject(index, row) {
+         this.isVisualizar = true
+         row.team = this.getTeamMembersId(row);
+         this.novoProjeto = row
+         this.titleModal = row.name
+         this.$store.commit('SET_MODAL', 'projeto')
+      },
+
+      handleEditProject(index, row) {
+         this.isVisualizar = false
+         this.isEditar = true
+         row.team = this.getTeamMembersId(row);
+         this.novoProjeto = row
+         this.titleModal = 'Editar projeto'
+         this.$store.commit('SET_MODAL', 'projeto')
       },
 
       async salvar() {
@@ -242,44 +264,25 @@ export default {
          this.$store.commit('SET_MODAL', 'add_news')
       },
 
+      async saveNews() {
+         try {
+            await this.createNews({ news: this.newsToBeCreated, projectId: this.novoProjeto._id })
+            ElNotification({
+               title: 'Tudo certo!',
+               message: `Atualização criada com sucesso!`,
+               type: 'success',
+            });
+            this.$store.commit('SET_MODAL', '');
+            this.novoProjeto = cloneDeep(models.emptyProject);
+            this.newsToBeCreated = cloneDeep(models.emptyNews);
+         } catch (error) { }
+      },
+
       async handleViewNews(index, row) {
          this.$router.push({
             name: 'ViewNews',
             params: { projectId: JSON.stringify(row._id) }
          });
-      },
-
-      handleEditProject(index, row) {
-         this.isVisualizar = false
-         this.isEditar = true
-         row.team = this.getTeamMembersId(row);
-         this.novoProjeto = row
-         this.titleModal = 'Editar projeto'
-         this.$store.commit('SET_MODAL', 'projeto')
-      },
-
-      handleViewProject(index, row) {
-         this.isVisualizar = true
-         row.team = this.getTeamMembersId(row);
-         this.novoProjeto = row
-         this.titleModal = row.name
-         this.$store.commit('SET_MODAL', 'projeto')
-      },
-
-      getTeamMembersId(row) {
-         return row.team[0] && row.team[0].name ? row.team.map((member) => member._id) : row.team;
-      },
-
-      async excluir(index, row) {
-         try {
-            await this.deleteProject(row._id)
-            ElNotification({
-               title: 'Tudo certo!',
-               message: 'Projeto removido com sucesso',
-               type: 'success',
-            })
-            await this.getProjetos()
-         } catch (error) { }
       },
 
       handleDeleteProject(index, row) {
@@ -296,20 +299,16 @@ export default {
          })
       },
 
-      handleClose() {
-         this.$store.commit('SET_MODAL', '')
-      },
-
-      formatList(row, column, prop) {
-         let listFormated = ''
-         prop.forEach((item, index) => {
-            if (index !== prop.length - 1) {
-               listFormated += item.name + ', '
-            } else {
-               listFormated += item.name
-            }
-         })
-         return listFormated
+      async excluir(index, row) {
+         try {
+            await this.deleteProject(row._id)
+            ElNotification({
+               title: 'Tudo certo!',
+               message: 'Projeto removido com sucesso',
+               type: 'success',
+            })
+            await this.getProjetos()
+         } catch (error) { }
       },
    }
 }
