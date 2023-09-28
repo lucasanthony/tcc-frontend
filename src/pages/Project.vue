@@ -100,7 +100,6 @@ div
    )
       add-news-modal(
          :titleModal='titleModal'
-         :isVisualizar="isVisualizar"
          :news="newsToBeCreated"
       )
       template(
@@ -108,7 +107,6 @@ div
       )
          span.dialog-footer
             el-button(
-               v-if="!isVisualizar"
                @click="saveNews()"
                type="primary"
                color="#4b53c6"
