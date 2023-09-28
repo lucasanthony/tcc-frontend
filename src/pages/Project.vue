@@ -98,7 +98,7 @@ div
       @close="closeModal"
       v-model="showModalAddNews"
    )
-      adicionar-atualizacao(
+      add-news-modal(
          :titleModal='titleModal'
          :isVisualizar="isVisualizar"
          :news="novaAtualizacao"
@@ -119,7 +119,7 @@ div
 import { mapActions } from 'vuex'
 import Utils from '@/utils/utils'
 import AdicionarProjeto from '@/components/modals/AdicionarProjeto.vue'
-import AdicionarAtualizacao from '@/components/modals/AdicionarAtualizacao.vue'
+import AddNewsModal from '@/components/modals/AddNewsModal.vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import models from '@/constants/models'
 import { cloneDeep } from 'lodash'
@@ -129,7 +129,7 @@ export default {
 
    components: {
       AdicionarProjeto,
-      AdicionarAtualizacao
+      AddNewsModal
    },
 
    async mounted() {

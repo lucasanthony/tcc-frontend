@@ -67,7 +67,7 @@ div.page
       @close="closeModal"
       v-model="showModalAddNews"
    )
-      adicionar-atualizacao(
+      add-news-modal(
          :titleModal='"Editar Atualização:"'
          :news="newsFormat"
       )

@@ -1,7 +1,7 @@
 import { mapActions } from 'vuex'
 import Utils from '@/utils/utils'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import AdicionarAtualizacao from '@/components/modals/AdicionarAtualizacao.vue'
+import AddNewsModal from '@/components/modals/AddNewsModal.vue'
 import models from '@/constants/models'
 import { cloneDeep } from 'lodash'
 
@@ -9,7 +9,7 @@ export default {
    name: 'ViewNews',
 
    components: {
-      AdicionarAtualizacao
+      AddNewsModal
    },
 
    async mounted() {
