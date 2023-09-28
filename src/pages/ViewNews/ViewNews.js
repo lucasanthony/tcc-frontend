@@ -52,7 +52,7 @@ export default {
          projectData: {},
          userInfo: {},
          title: '',
-         newsFormat: cloneDeep(models.emptyNews)
+         editableNews: cloneDeep(models.emptyNews)
       }
    },
 
@@ -126,7 +126,7 @@ export default {
       },
 
       handleEditNews(index, row) {
-         this.newsFormat = {
+         this.editableNews = {
             _id: row._id,
             description: row.description,
             image: row.image,
@@ -137,7 +137,7 @@ export default {
 
       async editNews() {
          try {
-            const data = await this.updateNews(this.newsFormat);
+            const data = await this.updateNews(this.editableNews);
 
             this.$store.commit('SET_MODAL', '');
 
@@ -151,14 +151,14 @@ export default {
                this.newsData = data.news
             };
 
-            this.newsFormat = cloneDeep(models.emptyNews);
+            this.editableNews = cloneDeep(models.emptyNews);
          } catch (error) { }
       },
 
       async closeModal() {
          this.$store.commit('SET_MODAL', '');
 
-         this.newsFormat = cloneDeep({ news: models.emptyNews });
+         this.editableNews = cloneDeep({ news: models.emptyNews });
 
          const data = await this.getNews();
          if (data && data.status !== 500) {

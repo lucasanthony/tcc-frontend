@@ -69,7 +69,7 @@ div.page
    )
       add-news-modal(
          :titleModal='"Editar Atualização:"'
-         :news="newsFormat"
+         :news="editableNews"
       )
       template(
          #footer
