@@ -101,7 +101,7 @@ div
       add-news-modal(
          :titleModal='titleModal'
          :isVisualizar="isVisualizar"
-         :news="novaAtualizacao"
+         :news="newsToBeCreated"
       )
       template(
          #footer
@@ -144,7 +144,7 @@ export default {
       return {
          dados: [],
          novoProjeto: cloneDeep(models.emptyProject),
-         novaAtualizacao: cloneDeep(models.emptyNews),
+         newsToBeCreated: cloneDeep(models.emptyNews),
          titleModal: 'Adicionar Projeto',
          isEditar: false,
          isVisualizar: false,
@@ -201,7 +201,7 @@ export default {
 
       async saveNews() {
          try {
-            await this.createNews({ news: this.novaAtualizacao, projectId: this.novoProjeto._id })
+            await this.createNews({ news: this.newsToBeCreated, projectId: this.novoProjeto._id })
             ElNotification({
                title: 'Tudo certo!',
                message: `Atualização criada com sucesso!`,
@@ -209,7 +209,7 @@ export default {
             });
             this.$store.commit('SET_MODAL', '');
             this.novoProjeto = cloneDeep(models.emptyProject);
-            this.novaAtualizacao = cloneDeep(models.emptyNews);
+            this.newsToBeCreated = cloneDeep(models.emptyNews);
          } catch (error) { }
       },
 
