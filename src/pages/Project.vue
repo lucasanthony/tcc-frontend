@@ -168,11 +168,7 @@ export default {
          createProject: 'createProject',
          updateProject: 'updateProject',
          deleteProject: 'deleteProject',
-         findAllNews: 'findAllNews',
-         getNewsByProject: 'getNewsByProject',
          createNews: 'createNews',
-         updateNews: 'updateNews',
-         deleteNews: 'deleteNews',
          getUserInfo: 'userInfo'
       }),
 
