@@ -69,7 +69,7 @@ div.page
    )
       adicionar-atualizacao(
          :titleModal='"Editar Atualização:"'
-         :atualizacao="newsFormat"
+         :news="newsFormat"
       )
       template(
          #footer

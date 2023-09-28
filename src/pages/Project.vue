@@ -101,7 +101,7 @@ div
       adicionar-atualizacao(
          :titleModal='titleModal'
          :isVisualizar="isVisualizar"
-         :atualizacao="novaAtualizacao"
+         :news="novaAtualizacao"
       )
       template(
          #footer

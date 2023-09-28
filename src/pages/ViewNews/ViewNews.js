@@ -158,7 +158,7 @@ export default {
       async closeModal() {
          this.$store.commit('SET_MODAL', '');
 
-         this.newsFormat = cloneDeep({ atualizacao: models.emptyNews });
+         this.newsFormat = cloneDeep({ news: models.emptyNews });
 
          const data = await this.getNews();
          if (data && data.status !== 500) {

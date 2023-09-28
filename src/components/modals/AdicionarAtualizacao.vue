@@ -5,7 +5,7 @@ div.modal-content
          content-position="left"
       ) Descrição
       el-input(
-         v-model="atualizacao.description"
+         v-model="news.description"
          type="textarea"
          placeholder="Descrição"
       )
@@ -14,7 +14,7 @@ div.modal-content
       ) URL
       el-input(
          placeholder="URL"
-         v-model="atualizacao.updateLink"
+         v-model="news.updateLink"
       )
       // el-divider(
       //    content-position="left"
@@ -35,7 +35,7 @@ export default {
    name: 'AdicionarAtualizacao',
 
    props: {
-      atualizacao: {
+      news: {
          type: Object,
          required: true
       }
@@ -53,16 +53,16 @@ export default {
       }),
 
       onImageSelected(e) {
-         this.atualizacao.image = e.target.files[0]
+         this.news.image = e.target.files[0]
          this.convertImageToBuffer();
       },
 
       async convertImageToBuffer() {
-         if (!this.atualizacao.image) {
+         if (!this.news.image) {
             return;
          }
 
-         this.atualizacao.image = new Uint8Array(await this.atualizacao.image.arrayBuffer());
+         this.news.image = new Uint8Array(await this.news.image.arrayBuffer());
       }
    }
 }
