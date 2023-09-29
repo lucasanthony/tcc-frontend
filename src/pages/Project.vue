@@ -36,33 +36,33 @@ div
                div.actions()
                   div.actions-button(
                      v-if="isLeadership || onTeam(scope.row)"
-                     @click="handleAdicionar(scope.$index, scope.row)"
+                     @click="handleAddNews(scope.$index, scope.row)"
                      :style="'background: #A8CDE8'"
                   )
                      el-icon
                         Plus()
                   div.actions-button(
-                     @click=""
+                     @click="handleViewNews(scope.$index, scope.row)"
                      :style="'background: #E8A8CE'"
                   )
                      el-icon
                         View()
                   div.actions-button(
-                     @click="handleVisualizar(scope.$index, scope.row)"
+                     @click="handleViewProject(scope.$index, scope.row)"
                      :style="'background: #67c23a'"
                   )
                      el-icon
                         View()
                   div.actions-button(
                      v-if="isLeadership"
-                     @click="handleEditar(scope.$index, scope.row)"
+                     @click="handleEditProject(scope.$index, scope.row)"
                      :style="'background: #4b53c6'"
                   )
                      el-icon
                         Edit()
                   div.actions-button(
                      v-if="isLeadership"
-                     @click="handleExcluir(scope.$index, scope.row)"
+                     @click="handleDeleteProject(scope.$index, scope.row)"
                      :style="'background: #e07c72'"
                   )
                      el-icon
@@ -96,20 +96,18 @@ div
       :before-close="handleClose"
       :title="titleModal"
       @close="closeModal"
-      v-model="showModalNews"
+      v-model="showModalAddNews"
    )
-      adicionar-atualizacao(
+      add-news-modal(
          :titleModal='titleModal'
-         :isVisualizar="isVisualizar"
-         :atualizacao="novaAtualizacao"
+         :news="newsToBeCreated"
       )
       template(
          #footer
       )
          span.dialog-footer
             el-button(
-               v-if="!isVisualizar"
-               @click="isEditar ? editarNews() : salvarNews()"
+               @click="saveNews()"
                type="primary"
                color="#4b53c6"
             ) Salvar
@@ -119,7 +117,7 @@ div
 import { mapActions } from 'vuex'
 import Utils from '@/utils/utils'
 import AdicionarProjeto from '@/components/modals/AdicionarProjeto.vue'
-import AdicionarAtualizacao from '@/components/modals/AdicionarAtualizacao.vue'
+import AddNewsModal from '@/components/modals/AddNewsModal.vue'
 import { ElNotification, ElMessageBox } from 'element-plus'
 import models from '@/constants/models'
 import { cloneDeep } from 'lodash'
@@ -129,10 +127,11 @@ export default {
 
    components: {
       AdicionarProjeto,
-      AdicionarAtualizacao
+      AddNewsModal
    },
 
    async mounted() {
+      this.$store.commit('SHOW_SIDEBAR', true);
       this.userInfo = await this.getUserInfo();
       this.$store.commit('SET_SIDEBAR_OPTION', this.$route.name.toLowerCase())
       const res = await this.findAllProjects()
@@ -143,7 +142,7 @@ export default {
       return {
          dados: [],
          novoProjeto: cloneDeep(models.emptyProject),
-         novaAtualizacao: cloneDeep(models.emptyNews),
+         newsToBeCreated: cloneDeep(models.emptyNews),
          titleModal: 'Adicionar Projeto',
          isEditar: false,
          isVisualizar: false,
@@ -155,8 +154,8 @@ export default {
       showModal() {
          return this.$store.state.header.modal === 'projeto'
       },
-      showModalNews() {
-         return this.$store.state.header.modal === "atualizacao"
+      showModalAddNews() {
+         return this.$store.state.header.modal === "add_news"
       },
       isLeadership() {
          return ['Presidente', 'Diretor(a)'].includes(localStorage.getItem("@role"))
@@ -169,10 +168,7 @@ export default {
          createProject: 'createProject',
          updateProject: 'updateProject',
          deleteProject: 'deleteProject',
-         findAllNews: 'findAllNews',
          createNews: 'createNews',
-         updateNews: 'updateNews',
-         deleteNews: 'deleteNews',
          getUserInfo: 'userInfo'
       }),
 
@@ -184,6 +180,17 @@ export default {
          return Utils.formatDate(prop)
       },
 
+      formatList(row, column, prop) {
+         let listFormated = '';
+         prop.forEach((item, index) => {
+            if (index !== prop.length - 1)
+               listFormated += item.name + ', ';
+            else
+               listFormated += item.name;
+         });
+         return listFormated;
+      },
+
       async closeModal() {
          this.isVisualizar = false
          this.isEditar = false
@@ -192,23 +199,34 @@ export default {
          this.$store.commit('SET_MODAL', '')
       },
 
+      handleClose() {
+         this.$store.commit('SET_MODAL', '')
+      },
+
+      getTeamMembersId(row) {
+         return row.team[0] && row.team[0].name ? row.team.map((member) => member._id) : row.team;
+      },
+
       async getProjetos() {
          const res = await this.findAllProjects()
          this.dados = res.projects
       },
 
-      async salvarNews() {
-         try {
-            await this.createNews({ news: this.novaAtualizacao, projectId: this.novoProjeto._id })
-            ElNotification({
-               title: 'Tudo certo!',
-               message: `Atualização criada com sucesso!`,
-               type: 'success',
-            });
-            this.$store.commit('SET_MODAL', '');
-            this.novoProjeto = cloneDeep(models.emptyProject);
-            this.novaAtualizacao = cloneDeep(models.emptyNews);
-         } catch (error) { }
+      handleViewProject(index, row) {
+         this.isVisualizar = true
+         row.team = this.getTeamMembersId(row);
+         this.novoProjeto = row
+         this.titleModal = row.name
+         this.$store.commit('SET_MODAL', 'projeto')
+      },
+
+      handleEditProject(index, row) {
+         this.isVisualizar = false
+         this.isEditar = true
+         row.team = this.getTeamMembersId(row);
+         this.novoProjeto = row
+         this.titleModal = 'Editar projeto'
+         this.$store.commit('SET_MODAL', 'projeto')
       },
 
       async salvar() {
@@ -240,46 +258,34 @@ export default {
          } catch (error) { }
       },
 
-      handleAdicionar(index, row) {
+      handleAddNews(index, row) {
          this.novoProjeto = row;
          this.titleModal = 'Adicionar atualização'
-         this.$store.commit('SET_MODAL', 'atualizacao')
+         this.$store.commit('SET_MODAL', 'add_news')
       },
 
-      handleEditar(index, row) {
-         this.isVisualizar = false
-         this.isEditar = true
-         row.team = this.getTeamMembersId(row);
-         this.novoProjeto = row
-         this.titleModal = 'Editar projeto'
-         this.$store.commit('SET_MODAL', 'projeto')
-      },
-
-      handleVisualizar(index, row) {
-         this.isVisualizar = true
-         row.team = this.getTeamMembersId(row);
-         this.novoProjeto = row
-         this.titleModal = row.name
-         this.$store.commit('SET_MODAL', 'projeto')
-      },
-
-      getTeamMembersId(row) {
-         return row.team[0] && row.team[0].name ? row.team.map((member) => member._id) : row.team;
-      },
-
-      async excluir(index, row) {
+      async saveNews() {
          try {
-            await this.deleteProject(row._id)
+            await this.createNews({ news: this.newsToBeCreated, projectId: this.novoProjeto._id })
             ElNotification({
                title: 'Tudo certo!',
-               message: 'Projeto removido com sucesso',
+               message: `Atualização criada com sucesso!`,
                type: 'success',
-            })
-            await this.getProjetos()
+            });
+            this.$store.commit('SET_MODAL', '');
+            this.novoProjeto = cloneDeep(models.emptyProject);
+            this.newsToBeCreated = cloneDeep(models.emptyNews);
          } catch (error) { }
       },
 
-      handleExcluir(index, row) {
+      async handleViewNews(index, row) {
+         this.$router.push({
+            name: 'ViewNews',
+            params: { projectId: JSON.stringify(row._id) }
+         });
+      },
+
+      handleDeleteProject(index, row) {
          ElMessageBox.confirm(
             `Excluir projeto ${row.name} do sistema?`,
             'Atenção',
@@ -293,20 +299,16 @@ export default {
          })
       },
 
-      handleClose() {
-         this.$store.commit('SET_MODAL', '')
-      },
-
-      formatList(row, column, prop) {
-         let listFormated = ''
-         prop.forEach((item, index) => {
-            if (index !== prop.length - 1) {
-               listFormated += item.name + ', '
-            } else {
-               listFormated += item.name
-            }
-         })
-         return listFormated
+      async excluir(index, row) {
+         try {
+            await this.deleteProject(row._id)
+            ElNotification({
+               title: 'Tudo certo!',
+               message: 'Projeto removido com sucesso',
+               type: 'success',
+            })
+            await this.getProjetos()
+         } catch (error) { }
       },
    }
 }

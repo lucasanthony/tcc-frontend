@@ -5,18 +5,16 @@ div.modal-content
          content-position="left"
       ) Descrição
       el-input(
-         v-model="atualizacao.description"
+         v-model="news.description"
          type="textarea"
          placeholder="Descrição"
-         :disabled="isVisualizar"
       )
       el-divider(
          content-position="left"
       ) URL
       el-input(
          placeholder="URL"
-         v-model="atualizacao.updateLink"
-         :disabled="isVisualizar"
+         v-model="news.updateLink"
       )
       // el-divider(
       //    content-position="left"
@@ -34,17 +32,12 @@ div.modal-content
 import { mapActions } from 'vuex';
 
 export default {
-   name: 'AdicionarAtualizacao',
+   name: 'AddNewsModal',
 
    props: {
-      atualizacao: {
+      news: {
          type: Object,
          required: true
-      },
-      isVisualizar: {
-         type: Boolean,
-         required: false,
-         default: false
       }
    },
 
@@ -60,16 +53,16 @@ export default {
       }),
 
       onImageSelected(e) {
-         this.atualizacao.image = e.target.files[0]
+         this.news.image = e.target.files[0]
          this.convertImageToBuffer();
       },
 
       async convertImageToBuffer() {
-         if (!this.atualizacao.image) {
+         if (!this.news.image) {
             return;
          }
 
-         this.atualizacao.image = new Uint8Array(await this.atualizacao.image.arrayBuffer());
+         this.news.image = new Uint8Array(await this.news.image.arrayBuffer());
       }
    }
 }
