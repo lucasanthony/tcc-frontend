@@ -62,7 +62,7 @@ div
       :titleModal='titleModal'
       :isVisualizar="isVisualizar"
       :membro="novoMembro"
-      :emailError="emailError"
+      :errorEmailInUse="errorEmailInUse"
     )
     template(
       #footer
@@ -104,7 +104,7 @@ export default {
       isEditar: false,
       isVisualizar: false,
       titleModal: 'Adicionar Membro',
-      emailError: false,
+      errorEmailInUse: "",
     }
   },
 
@@ -155,7 +155,6 @@ export default {
       try {
         if (this.valid) {
           const res = await this.createMember(this.novoMembro)
-          this.emailError = false;
           ElNotification({
             title: 'Tudo certo!',
             message: `${res.member.name} foi cadastrado com sucesso`,
@@ -166,10 +165,9 @@ export default {
           this.novoMembro = cloneDeep(models.emptyMember);
         }
       } catch (error) {
-        if (error.response && error.response.status === 500) {
-          this.emailError = true;
+        if (error.response.data.error === 'EMAIL_ALREADY_IN_USE') {
+          this.errorEmailInUse = 'Já existe um membro cadastrado com esse email!';
         } else {
-          this.emailError = false;
           this.errorMessage = 'Ocorreu um erro ao processar a solicitação.';
         }
       }
