@@ -121,7 +121,7 @@ export default {
          ElNotification({
             title: 'Operação não realizada.',
             message: `Essa funcionalidade está em desenvolvimento.`,
-            type: 'warning',
+            type: 'info',
          })
       },
 
