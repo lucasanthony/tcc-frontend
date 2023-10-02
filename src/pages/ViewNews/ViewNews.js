@@ -19,7 +19,7 @@ export default {
       ElNotification({
          title: 'Aguarde...',
          message: 'A coleta de atualizações pode levar alguns instantes',
-         type: 'success',
+         type: 'warning',
       });
 
       const data = await this.getNews();

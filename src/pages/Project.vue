@@ -131,11 +131,21 @@ export default {
    },
 
    async mounted() {
+      ElNotification({
+         title: 'Aguarde...',
+         message: 'A coleta de projetos pode levar alguns instantes',
+         type: 'warning',
+      });
       this.$store.commit('SHOW_SIDEBAR', true);
       this.userInfo = await this.getUserInfo();
       this.$store.commit('SET_SIDEBAR_OPTION', this.$route.name.toLowerCase())
       const res = await this.findAllProjects()
       this.dados = res.projects
+      ElNotification({
+         title: 'Sucesso!',
+         message: 'Lista de projetos coletada.',
+         type: 'success',
+      });
    },
 
    data() {
